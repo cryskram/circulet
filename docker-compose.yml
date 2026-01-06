@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: circulet-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: circulet
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/postgres_data
+
+
+volumes:
+  postgres_data:
