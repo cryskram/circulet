@@ -29,7 +29,7 @@ export default function OnboardingPage() {
         }),
       });
 
-      router.replace("/");
+      window.location.replace("/");
     } catch (err) {
       console.error("Onboarding failed", err);
     } finally {
