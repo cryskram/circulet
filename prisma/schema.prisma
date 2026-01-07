@@ -125,13 +125,7 @@ enum UserRole {
 
 enum ReportReason {
   SPAM
-  INNAPPROPRIATE
+  INAPPROPRIATE
   MISLEADING
   OTHER
-}
-
-model dummy {
-  id        String   @id @default(cuid())
-  text      String
-  createdAt DateTime @default(now())
 }
