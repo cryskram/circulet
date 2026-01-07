@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-export async function middleware(req: Request) {
+export async function proxy(req: Request) {
   const url = new URL(req.url);
   const pathname = url.pathname;
 
