@@ -29,7 +29,6 @@ export default function OnboardingPage() {
         }),
       });
 
-      // After successful onboarding
       router.replace("/");
     } catch (err) {
       console.error("Onboarding failed", err);
