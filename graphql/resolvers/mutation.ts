@@ -50,4 +50,43 @@ export const Mutation = {
       },
     });
   },
+
+  deleteItem: async (
+    _: unknown,
+    { id }: { id: string },
+    ctx: GraphQLContext
+  ) => {
+    if (!ctx.user?.email) {
+      throw new Error("unauthorized");
+    }
+    const mItem = await ctx.prisma.item.findUnique({ where: { id } });
+
+    if (!mItem) {
+      throw new Error("Item not found");
+    }
+
+    const isOwner = mItem.ownerId === ctx.session?.user.id;
+
+    if (!isOwner) {
+      throw new Error("forbidden");
+    }
+
+    try {
+      const publicIds = mItem.images
+        .map((url) => {
+          const parts = url.split("/upload/");
+          return parts[1].split(".")[0];
+        })
+        .filter(Boolean);
+
+      if (publicIds.length) {
+        const cloudinary = (await import("@/lib/cloudinary")).default;
+        await cloudinary.api.delete_resources(publicIds);
+      }
+    } catch (err) {
+      console.error("Failed to delete images", err);
+    }
+
+    return await ctx.prisma.item.delete({ where: { id } });
+  },
 };

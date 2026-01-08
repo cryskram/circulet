@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import LoginButton from "@/components/LoginButton";
 import ItemCard from "@/components/ItemCard";
+import Image from "next/image";
 
 export default async function HomePage() {
   const session = await auth();
@@ -39,7 +40,7 @@ export default async function HomePage() {
             ) : (
               <div className="flex gap-4">
                 <Link
-                  href="/browse"
+                  href="/items"
                   className="px-5 py-3 rounded-md border bg-white shadow-sm hover:shadow-md transition"
                 >
                   Browse items
@@ -54,8 +55,15 @@ export default async function HomePage() {
             )}
           </div>
 
-          <div className="hidden md:block">
-            <div className="h-64 rounded-xl bg-linear-to-br from-neutral-100 to-neutral-200 shadow-inner" />
+          <div className="relative hidden md:block">
+            <Image
+              src="/images/community.svg"
+              alt="Students exchanging items"
+              width={512}
+              height={512}
+              className="object-contain"
+              priority
+            />
           </div>
         </div>
       </section>
@@ -87,7 +95,7 @@ export default async function HomePage() {
           </h2>
 
           <Link
-            href="/browse"
+            href="/items"
             className="text-sm text-neutral-600 hover:underline"
           >
             View all

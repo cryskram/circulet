@@ -7,7 +7,7 @@ export default async function Navbar() {
   const session = await auth();
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 border-b">
+    <nav className="fixed top-0 left-0 w-full backdrop-blur-md bg-white/15 z-50 flex items-center justify-between px-6 py-4 border-b">
       <Link href="/" className="text-lg font-semibold">
         Circulet
       </Link>

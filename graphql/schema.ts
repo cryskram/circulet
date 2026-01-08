@@ -11,6 +11,7 @@ export const typeDefs = gql`
     id: ID!
     name: String
     email: String!
+    image: String
     username: String
     gradYear: Int
     role: String!
@@ -30,6 +31,7 @@ export const typeDefs = gql`
     price: Int
     type: ItemType!
     images: [String!]!
+    status: String
     category: Category!
     owner: User!
     createdAt: String!
@@ -39,6 +41,7 @@ export const typeDefs = gql`
     me: User
     categories: [Category!]!
     items: [Item!]!
+    item(id: ID!): Item
   }
 
   type Mutation {
@@ -51,5 +54,6 @@ export const typeDefs = gql`
       type: ItemType!
       images: [String!]!
     ): Item!
+    deleteItem(id: ID!): Item!
   }
 `;

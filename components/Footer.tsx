@@ -17,7 +17,7 @@ export default function Footer() {
           <h4 className="text-sm font-medium text-neutral-900">Explore</h4>
           <ul className="space-y-1 text-sm text-neutral-600">
             <li>
-              <Link href="/browse" className="hover:underline">
+              <Link href="/items" className="hover:underline">
                 Browse items
               </Link>
             </li>

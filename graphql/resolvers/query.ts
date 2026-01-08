@@ -22,4 +22,20 @@ export const Query = {
       orderBy: { createdAt: "desc" },
     });
   },
+
+  item: async (_: unknown, { id }: { id: string }, ctx: GraphQLContext) => {
+    const mItem = await ctx.prisma.item.findUnique({
+      where: { id },
+      include: {
+        category: true,
+        owner: true,
+      },
+    });
+
+    if (!mItem) {
+      throw new Error("Item not found");
+    }
+
+    return mItem;
+  },
 };

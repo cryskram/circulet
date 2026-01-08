@@ -5,6 +5,7 @@ import { GET_ITEMS_AND_CATEGORIES } from "@/lib/operations";
 import { useState } from "react";
 import ItemCard from "@/components/ItemCard";
 import Select from "@/components/Select";
+import { Metadata } from "next";
 
 type Item = {
   id: string;

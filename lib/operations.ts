@@ -68,3 +68,36 @@ export const CREATE_ITEM = gql`
     }
   }
 `;
+
+export const GET_ITEM = gql`
+  query GetItem($id: ID!) {
+    item(id: $id) {
+      id
+      title
+      description
+      price
+      type
+      status
+      images
+      createdAt
+      category {
+        name
+        slug
+      }
+      owner {
+        id
+        name
+        image
+      }
+    }
+  }
+`;
+
+export const DELETE_ITEM = gql`
+  mutation DeleteItem($id: ID!) {
+    deleteItem(id: $id) {
+      id
+      title
+    }
+  }
+`;
