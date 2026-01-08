@@ -1,35 +1,38 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useMutation } from "@apollo/client/react";
+import { ONBOARDING_UPDATE } from "@/lib/operations";
+import toast from "react-hot-toast";
 
 export default function OnboardingPage() {
-  const router = useRouter();
-
   const [phone, setPhone] = useState("");
   const [username, setUsername] = useState("");
   const [gradYear, setGradYear] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const [completeOnboarding] = useMutation(ONBOARDING_UPDATE, {
+    onCompleted: () => {
+      toast.success("Profile Creation Complete");
+      window.location.replace("/");
+    },
+    onError: () => {
+      toast.error("Something went wrong. Please try again.");
+    },
+  });
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // graphl should come here later
-      await fetch("/api/onboarding/complete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      await completeOnboarding({
+        variables: {
           phone,
           username,
-          gradYear: gradYear ? Number(gradYear) : null,
-        }),
+          gradYear: gradYear ? Number(gradYear) : 0,
+        },
       });
-
-      window.location.replace("/");
     } catch (err) {
       console.error("Onboarding failed", err);
     } finally {
