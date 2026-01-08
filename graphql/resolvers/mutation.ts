@@ -66,8 +66,9 @@ export const Mutation = {
     }
 
     const isOwner = mItem.ownerId === ctx.session?.user.id;
+    const isAdmin = ctx.session?.user.role === "ADMIN";
 
-    if (!isOwner) {
+    if (!isOwner && !isAdmin) {
       throw new Error("forbidden");
     }
 

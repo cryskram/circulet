@@ -6,9 +6,11 @@ import { DELETE_ITEM } from "@/lib/operations";
 export default function DeleteButton({
   itemId,
   isOwner,
+  isAdmin,
 }: {
   itemId: string;
   isOwner: boolean;
+  isAdmin: boolean;
 }) {
   const [deleteItem, { loading }] = useMutation(DELETE_ITEM, {
     onCompleted: () => {
@@ -27,7 +29,9 @@ export default function DeleteButton({
     });
   }
 
-  if (!isOwner) return null;
+  console.log(isAdmin, isOwner);
+
+  if (!isAdmin && !isOwner) return null;
 
   return (
     <div className="flex gap-3 w-full">

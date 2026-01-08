@@ -26,6 +26,9 @@ export default async function ItemPage({
   }
 
   const isOwner = session?.user?.id === item.owner.id;
+  const isAdmin = session?.user.role === "ADMIN";
+
+  const canModify = isOwner || isAdmin;
 
   return (
     <main className="min-h-screen bg-neutral-50">
@@ -119,14 +122,17 @@ export default async function ItemPage({
             </div>
           </div>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 w-full">
             {!isOwner && (
-              <button className="flex-1 bg-neutral-900 text-white py-2 rounded-md hover:shadow transition">
+              <Link
+                href="#"
+                className="w-full text-center bg-neutral-900 text-white py-2 rounded-md transition"
+              >
                 Contact seller
-              </button>
+              </Link>
             )}
 
-            {isOwner && (
+            {canModify && (
               <div className="flex w-full gap-4">
                 <Link
                   href={`/items/${item.id}/edit`}
@@ -134,7 +140,11 @@ export default async function ItemPage({
                 >
                   Edit
                 </Link>
-                <DeleteButton itemId={item.id} isOwner={isOwner} />
+                <DeleteButton
+                  itemId={item.id}
+                  isOwner={isOwner}
+                  isAdmin={isAdmin}
+                />
               </div>
             )}
           </div>
