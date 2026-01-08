@@ -71,7 +71,7 @@ export default function UserMenu({ user }: Props) {
           </Link>
 
           <Link
-            href="/post"
+            href="/new"
             className="block px-4 py-2 text-sm hover:bg-neutral-100"
             onClick={() => setOpen(false)}
           >

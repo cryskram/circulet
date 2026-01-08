@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import LoginButton from "@/components/LoginButton";
+import ItemCard from "@/components/ItemCard";
 
 export default async function HomePage() {
   const session = await auth();
@@ -100,24 +101,7 @@ export default async function HomePage() {
         ) : (
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
             {items.map((item) => (
-              <Link
-                key={item.id}
-                href={`/items/${item.id}`}
-                className="rounded-xl border bg-white p-4 shadow-sm hover:shadow-md transition flex flex-col gap-2"
-              >
-                <div className="h-32 rounded-md bg-neutral-100" />
-
-                <div className="flex-1 space-y-1">
-                  <p className="font-medium text-neutral-900">{item.title}</p>
-                  <p className="text-sm text-neutral-600">
-                    {item.category.name}
-                  </p>
-                </div>
-
-                <p className="text-sm font-medium text-neutral-800">
-                  {item.type === "FREE" ? "Free" : `₹${item.price}`}
-                </p>
-              </Link>
+              <ItemCard key={item.id} item={item} />
             ))}
           </div>
         )}
