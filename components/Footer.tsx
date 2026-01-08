@@ -17,18 +17,13 @@ export default function Footer() {
           <h4 className="text-sm font-medium text-neutral-900">Explore</h4>
           <ul className="space-y-1 text-sm text-neutral-600">
             <li>
-              <Link href="/items" className="hover:underline">
+              <Link href="/browse" className="hover:underline">
                 Browse items
               </Link>
             </li>
             <li>
-              <Link href="/post" className="hover:underline">
+              <Link href="/new" className="hover:underline">
                 Post an item
-              </Link>
-            </li>
-            <li>
-              <Link href="/profile" className="hover:underline">
-                Profile
               </Link>
             </li>
           </ul>
@@ -44,7 +39,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row justify-between gap-2 text-xs text-neutral-500">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-neutral-500">
           <span className="inline-flex items-center gap-2">
             <FaCopyright size={16} /> {new Date().getFullYear()} Circulet. All
             rights reserved.

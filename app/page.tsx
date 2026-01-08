@@ -38,13 +38,13 @@ export default async function HomePage() {
             ) : (
               <div className="flex gap-4">
                 <Link
-                  href="/items"
+                  href="/browse"
                   className="px-5 py-3 rounded-md border bg-white shadow-sm hover:shadow-md transition"
                 >
                   Browse items
                 </Link>
                 <Link
-                  href="/post"
+                  href="/new"
                   className="px-5 py-3 rounded-md bg-neutral-900 text-white shadow-sm hover:shadow-md transition"
                 >
                   Post an item
@@ -86,7 +86,7 @@ export default async function HomePage() {
           </h2>
 
           <Link
-            href="/items"
+            href="/browse"
             className="text-sm text-neutral-600 hover:underline"
           >
             View all

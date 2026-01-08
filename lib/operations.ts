@@ -5,3 +5,66 @@ export const ONBOARDING_UPDATE = gql`
     completeOnboarding(phone: $phone, username: $username, gradYear: $gradYear)
   }
 `;
+
+export const GET_ITEMS = gql`
+  query GetItems {
+    items {
+      id
+      title
+      price
+      type
+      images
+      createdAt
+      category {
+        name
+        slug
+      }
+      owner {
+        name
+      }
+    }
+  }
+`;
+
+export const GET_ITEMS_AND_CATEGORIES = gql`
+  query ItemsAndCategories {
+    items {
+      id
+      title
+      price
+      type
+      images
+      category {
+        name
+        slug
+      }
+    }
+    categories {
+      id
+      name
+      slug
+    }
+  }
+`;
+
+export const CREATE_ITEM = gql`
+  mutation CreateItem(
+    $title: String!
+    $description: String!
+    $price: Int
+    $type: ItemType!
+    $categoryId: String!
+    $images: [String!]!
+  ) {
+    createItem(
+      title: $title
+      description: $description
+      price: $price
+      type: $type
+      categoryId: $categoryId
+      images: $images
+    ) {
+      id
+    }
+  }
+`;

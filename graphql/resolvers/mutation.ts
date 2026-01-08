@@ -31,6 +31,7 @@ export const Mutation = {
       price?: number;
       categoryId: string;
       type: "SELL" | "RENT" | "FREE";
+      images: string[];
     },
     ctx: GraphQLContext
   ) => {
@@ -42,7 +43,6 @@ export const Mutation = {
       data: {
         ...input,
         ownerId: ctx.user.id,
-        images: [],
       },
       include: {
         category: true,

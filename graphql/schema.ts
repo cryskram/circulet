@@ -29,6 +29,7 @@ export const typeDefs = gql`
     description: String!
     price: Int
     type: ItemType!
+    images: [String!]!
     category: Category!
     owner: User!
     createdAt: String!
@@ -48,6 +49,7 @@ export const typeDefs = gql`
       price: Int
       categoryId: String!
       type: ItemType!
+      images: [String!]!
     ): Item!
   }
 `;
