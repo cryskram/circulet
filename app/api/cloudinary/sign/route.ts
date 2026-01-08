@@ -10,11 +10,12 @@ export async function POST() {
   }
 
   const timestamp = Math.round(Date.now() / 1000);
+  const folder = `circulet/users/${session.user.id}/items`;
 
   const signature = cloudinary.utils.api_sign_request(
     {
       timestamp,
-      folder: "circulet/items",
+      folder,
     },
     process.env.CLOUDINARY_API_SECRET!
   );
@@ -24,6 +25,6 @@ export async function POST() {
     signature,
     cloudName: process.env.CLOUDINARY_CLOUD_NAME,
     apiKey: process.env.CLOUDINARY_API_KEY,
-    folder: "circulet/items",
+    folder,
   });
 }
