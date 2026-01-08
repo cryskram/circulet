@@ -1,36 +1,46 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
+const AUTH_REQUIRED_PATHS = ["/new", "/profile", "/myItems"];
+
 export async function proxy(req: Request) {
   const url = new URL(req.url);
   const pathname = url.pathname;
 
-  // whitelisted urls
   if (
     pathname.startsWith("/api") ||
     pathname.startsWith("/_next") ||
-    pathname.startsWith("/favicon.ico")
+    pathname === "/favicon.ico"
   ) {
     return NextResponse.next();
   }
 
   const session = await auth();
 
-  // not logged in
-  if (!session?.user) {
-    return NextResponse.next();
+  const isAuthRequired = AUTH_REQUIRED_PATHS.some((path) =>
+    pathname.startsWith(path)
+  );
+
+  if (isAuthRequired && !session?.user) {
+    return NextResponse.redirect(new URL("/api/auth/signin", req.url));
   }
 
-  // onboarding url
-  if (session.user.isProfileComplete === false && pathname !== "/onboarding") {
+  if (
+    session?.user &&
+    session.user.isProfileComplete === false &&
+    pathname !== "/onboarding"
+  ) {
     return NextResponse.redirect(new URL("/onboarding", req.url));
   }
 
-  if (session.user.isProfileComplete === true && pathname === "/onboarding") {
+  if (
+    session?.user &&
+    session.user.isProfileComplete === true &&
+    pathname === "/onboarding"
+  ) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // if no issue
   return NextResponse.next();
 }
 
