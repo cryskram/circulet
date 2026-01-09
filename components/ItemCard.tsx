@@ -24,9 +24,9 @@ export default function ItemCard({ item }: ItemCardProps) {
   return (
     <Link
       href={`/items/${item.id}`}
-      className="rounded-xl border bg-white p-4 shadow-sm hover:shadow-md transition flex flex-col gap-3"
+      className="flex flex-col gap-3 rounded-xl border bg-white p-4 shadow-sm transition hover:shadow-md"
     >
-      <div className="relative w-full overflow-hidden rounded-md bg-slate-100 aspect-square">
+      <div className="relative aspect-square w-full overflow-hidden rounded-md bg-slate-100">
         {image ? (
           <Image
             src={image}
@@ -45,7 +45,7 @@ export default function ItemCard({ item }: ItemCardProps) {
         )}
       </div>
       <div className="flex-1 space-y-1">
-        <p className="font-medium text-slate-900 line-clamp-2">{item.title}</p>
+        <p className="line-clamp-2 font-medium text-slate-900">{item.title}</p>
         <p className="text-sm text-slate-600">{item.category.name}</p>
       </div>
 
@@ -54,7 +54,7 @@ export default function ItemCard({ item }: ItemCardProps) {
           {item.type === "FREE" ? "Free" : item.price ? `₹${item.price}` : ""}
         </span>
 
-        <span className="text-xs uppercase tracking-wide text-slate-500">
+        <span className="text-xs tracking-wide text-slate-500 uppercase">
           {item.type}
         </span>
       </div>

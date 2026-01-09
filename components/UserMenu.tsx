@@ -17,8 +17,6 @@ export default function UserMenu({ user }: Props) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  console.log(user.image);
-
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -34,37 +32,37 @@ export default function UserMenu({ user }: Props) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 rounded-full border px-2 py-1 hover:bg-slate-100 transition cursor-pointer"
+        className="flex items-center gap-2 rounded-full border bg-white px-2 py-1 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800"
       >
-        <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-200 flex items-center justify-center">
+        <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
           {user.image ? (
             <Image
               src={user.image}
               alt="Profile"
-              width={256}
-              height={256}
-              className="w-full h-full object-cover"
+              width={32}
+              height={32}
+              className="h-full w-full object-cover"
             />
           ) : (
-            <span className="text-sm font-medium text-slate-700">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
               {user.name?.[0]?.toUpperCase() ?? "U"}
             </span>
           )}
         </div>
 
         <FaCaretDown
-          size={16}
-          className={`text-slate-600 transition-transform duration-300 ${
+          size={14}
+          className={`text-slate-600 transition-transform dark:text-slate-300 ${
             open ? "rotate-180" : ""
           }`}
         />
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-48 rounded-md border bg-white shadow-lg overflow-hidden z-50">
+        <div className="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900">
           <Link
             href="/profile"
-            className="block px-4 py-2 text-sm hover:bg-slate-100"
+            className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
             onClick={() => setOpen(false)}
           >
             Profile
@@ -72,17 +70,17 @@ export default function UserMenu({ user }: Props) {
 
           <Link
             href="/new"
-            className="block px-4 py-2 text-sm hover:bg-slate-100"
+            className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
             onClick={() => setOpen(false)}
           >
             Post item
           </Link>
 
-          <div className="border-t" />
+          <div className="border-t border-slate-200 dark:border-slate-700" />
 
           <button
             onClick={() => signOut()}
-            className="w-full text-left px-4 py-2 text-sm bg-red-400 hover:bg-red-400/80 cursor-pointer"
+            className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30"
           >
             Logout
           </button>

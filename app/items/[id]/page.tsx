@@ -33,9 +33,9 @@ export default async function ItemPage({
 
   return (
     <main className="min-h-screen bg-slate-50">
-      <div className="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 px-6 py-10 md:grid-cols-2">
         <div className="space-y-4">
-          <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-100">
+          <div className="relative aspect-square overflow-hidden rounded-xl bg-slate-100">
             {item.images?.[0] ? (
               <Image
                 src={item.images[0]}
@@ -60,7 +60,7 @@ export default async function ItemPage({
               {item.images.slice(1).map((img: string, i: number) => (
                 <div
                   key={i}
-                  className="relative aspect-square rounded-md overflow-hidden bg-slate-100"
+                  className="relative aspect-square overflow-hidden rounded-md bg-slate-100"
                 >
                   <Image src={img} alt="" fill className="object-cover" />
                 </div>
@@ -79,14 +79,14 @@ export default async function ItemPage({
 
           <div className="text-xl font-medium">
             {item.type === "FREE" ? "Free" : item.price ? `₹${item.price}` : ""}
-            <span className="ml-2 text-sm uppercase text-slate-500">
+            <span className="ml-2 text-sm text-slate-500 uppercase">
               {item.type}
             </span>
           </div>
 
           <div>
             <h2 className="text-sm font-medium text-slate-700">Description</h2>
-            <p className="mt-2 text-slate-800 leading-relaxed">
+            <p className="mt-2 leading-relaxed text-slate-800">
               {item.description}
             </p>
           </div>
@@ -121,12 +121,12 @@ export default async function ItemPage({
             </div>
           </div>
 
-          <div className="flex gap-3 w-full">
+          <div className="flex w-full gap-3">
             {!isOwner && (
               <Link
                 href={`https://wa.me/${item.owner.phone}`}
                 target="_blank"
-                className="w-full text-center bg-slate-900 text-white py-2 rounded-md transition items-center inline-flex justify-center gap-2"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 py-2 text-center text-white transition"
               >
                 <FaWhatsapp size={20} /> Chat on WhatsApp
               </Link>
@@ -136,7 +136,7 @@ export default async function ItemPage({
               <div className="flex w-full gap-4">
                 <Link
                   href={`/items/${item.id}/edit`}
-                  className="border py-2 w-full rounded-md text-center hover:bg-slate-100"
+                  className="w-full rounded-md border py-2 text-center hover:bg-slate-100"
                 >
                   Edit
                 </Link>

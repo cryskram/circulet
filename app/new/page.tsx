@@ -61,14 +61,14 @@ const CreateItemPage = () => {
   }
   return (
     <main className="min-h-screen bg-slate-50">
-      <div className="max-w-3xl mx-auto px-6 py-10">
-        <h1 className="text-2xl font-semibold text-slate-900 mb-6">
+      <div className="mx-auto max-w-3xl px-6 py-10">
+        <h1 className="mb-6 text-2xl font-semibold text-slate-900">
           Post an item
         </h1>
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 bg-white border rounded-xl p-6 shadow-sm"
+          className="space-y-6 rounded-xl border bg-white p-6 shadow-sm"
         >
           <div>
             <label className="text-sm font-medium">Title *</label>
@@ -129,7 +129,7 @@ const CreateItemPage = () => {
           <div>
             <label className="text-sm font-medium">Images</label>
 
-            <label className="mt-2 flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center cursor-pointer hover:border-slate-400 hover:bg-slate-100 transition">
+            <label className="mt-2 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center transition hover:border-slate-400 hover:bg-slate-100">
               <span className="text-sm text-slate-700">
                 Click to upload images
               </span>
@@ -156,7 +156,7 @@ const CreateItemPage = () => {
           <button
             type="submit"
             disabled={loading || uploading}
-            className="w-full bg-slate-900 text-white py-2 rounded-md hover:shadow-md transition disabled:opacity-50"
+            className="w-full rounded-md bg-slate-900 py-2 text-white transition hover:shadow-md disabled:opacity-50"
           >
             {uploading ? "Uploading images..." : "Post item"}
           </button>

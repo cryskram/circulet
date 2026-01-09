@@ -50,7 +50,7 @@ export default function BrowsePage() {
 
   return (
     <main className="min-h-screen bg-slate-50">
-      <div className="max-w-6xl mx-auto px-6 py-10 space-y-8">
+      <div className="mx-auto max-w-6xl space-y-8 px-6 py-10">
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold text-slate-900">
             Browse items
@@ -66,7 +66,7 @@ export default function BrowsePage() {
             placeholder="Search items..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="rounded-md border px-4 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 col-span-3"
+            className="col-span-3 rounded-md border bg-white px-4 py-2 text-sm focus:ring-2 focus:ring-slate-900 focus:outline-none"
           />
 
           <Select
@@ -90,11 +90,11 @@ export default function BrowsePage() {
         </div>
 
         {loading && (
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
-                className="h-48 rounded-xl bg-slate-200 animate-pulse"
+                className="h-48 animate-pulse rounded-xl bg-slate-200"
               />
             ))}
           </div>
@@ -113,7 +113,7 @@ export default function BrowsePage() {
         )}
 
         {!loading && items.length > 0 && (
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
             {items.map((item) => (
               <ItemCard key={item.id} item={item} />
             ))}

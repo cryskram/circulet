@@ -34,11 +34,11 @@ export default function DeleteButton({
   if (!isAdmin && !isOwner) return null;
 
   return (
-    <div className="flex gap-3 w-full">
+    <div className="flex w-full gap-3">
       <button
         onClick={handleDelete}
         disabled={loading}
-        className="w-full bg-red-400 hover:bg-red-400/80 py-2 rounded-md disabled:opacity-50"
+        className="w-full rounded-md bg-red-400 py-2 hover:bg-red-400/80 disabled:opacity-50"
       >
         {loading ? "Deleting..." : "Delete"}
       </button>
