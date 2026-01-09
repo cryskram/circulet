@@ -21,16 +21,16 @@ export default async function HomePage() {
   });
 
   return (
-    <div className="min-h-screen bg-neutral-50">
+    <div className="min-h-screen bg-slate-100">
       <section className="border-b bg-white">
         <div className="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6">
-            <h1 className="text-4xl font-semibold leading-tight text-neutral-900">
+          <div className="space-y-6 text-center md:text-left">
+            <h1 className="text-4xl font-semibold leading-tight text-slate-900">
               A campus marketplace <br />
               built for students
             </h1>
 
-            <p className="text-neutral-600 max-w-md">
+            <p className="text-slate-600 max-w-md mx-auto md:mx-0">
               Buy, sell, or rent pre-owned items within your campus. Affordable,
               sustainable, and student-driven.
             </p>
@@ -38,7 +38,7 @@ export default async function HomePage() {
             {!session?.user ? (
               <LoginButton text="Login with college email" />
             ) : (
-              <div className="flex gap-4">
+              <div className="flex gap-4 justify-center md:justify-start">
                 <Link
                   href="/items"
                   className="px-5 py-3 rounded-md border bg-white shadow-sm hover:shadow-md transition"
@@ -47,7 +47,7 @@ export default async function HomePage() {
                 </Link>
                 <Link
                   href="/new"
-                  className="px-5 py-3 rounded-md bg-neutral-900 text-white shadow-sm hover:shadow-md transition"
+                  className="px-5 py-3 rounded-md bg-slate-900 text-white shadow-sm hover:shadow-md transition"
                 >
                   Post an item
                 </Link>
@@ -69,7 +69,7 @@ export default async function HomePage() {
       </section>
 
       <section className="max-w-6xl mx-auto px-6 py-14">
-        <h2 className="text-xl font-medium text-neutral-900 mb-6">
+        <h2 className="text-xl font-medium text-slate-900 mb-6">
           Browse by category
         </h2>
 
@@ -80,7 +80,7 @@ export default async function HomePage() {
               href={`/items?category=${cat.slug}`}
               className="rounded-lg border bg-white p-4 text-center shadow-sm hover:shadow-md transition"
             >
-              <span className="text-sm font-medium text-neutral-800">
+              <span className="text-sm font-medium text-slate-800">
                 {cat.name}
               </span>
             </Link>
@@ -90,20 +90,20 @@ export default async function HomePage() {
 
       <div className="max-w-6xl mx-auto px-6 pb-20">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-medium text-neutral-900">
+          <h2 className="text-xl font-medium text-slate-900">
             Recent listings
           </h2>
 
           <Link
             href="/items"
-            className="text-sm text-neutral-600 hover:underline"
+            className="text-sm text-slate-600 hover:underline"
           >
             View all
           </Link>
         </div>
 
         {items.length === 0 ? (
-          <div className="rounded-lg border bg-white p-10 text-center text-neutral-500">
+          <div className="rounded-lg border bg-white p-10 text-center text-slate-500">
             No items listed yet.
           </div>
         ) : (

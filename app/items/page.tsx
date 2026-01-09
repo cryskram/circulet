@@ -49,13 +49,13 @@ export default function BrowsePage() {
     }) ?? [];
 
   return (
-    <main className="min-h-screen bg-neutral-50">
+    <main className="min-h-screen bg-slate-50">
       <div className="max-w-6xl mx-auto px-6 py-10 space-y-8">
         <div className="space-y-2">
-          <h1 className="text-2xl font-semibold text-neutral-900">
+          <h1 className="text-2xl font-semibold text-slate-900">
             Browse items
           </h1>
-          <p className="text-sm text-neutral-600">
+          <p className="text-sm text-slate-600">
             Search and filter items listed by students on campus
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function BrowsePage() {
             placeholder="Search items..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="rounded-md border px-4 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-neutral-900 col-span-3"
+            className="rounded-md border px-4 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-slate-900 col-span-3"
           />
 
           <Select
@@ -94,7 +94,7 @@ export default function BrowsePage() {
             {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
-                className="h-48 rounded-xl bg-neutral-200 animate-pulse"
+                className="h-48 rounded-xl bg-slate-200 animate-pulse"
               />
             ))}
           </div>
@@ -107,7 +107,7 @@ export default function BrowsePage() {
         )}
 
         {!loading && items.length === 0 && (
-          <div className="rounded-md border bg-white p-10 text-center text-neutral-600">
+          <div className="rounded-md border bg-white p-10 text-center text-slate-600">
             No items match your filters.
           </div>
         )}

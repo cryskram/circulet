@@ -60,9 +60,9 @@ const CreateItemPage = () => {
     }
   }
   return (
-    <main className="min-h-screen bg-neutral-50">
+    <main className="min-h-screen bg-slate-50">
       <div className="max-w-3xl mx-auto px-6 py-10">
-        <h1 className="text-2xl font-semibold text-neutral-900 mb-6">
+        <h1 className="text-2xl font-semibold text-slate-900 mb-6">
           Post an item
         </h1>
 
@@ -129,11 +129,11 @@ const CreateItemPage = () => {
           <div>
             <label className="text-sm font-medium">Images</label>
 
-            <label className="mt-2 flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-neutral-300 bg-neutral-50 px-6 py-10 text-center cursor-pointer hover:border-neutral-400 hover:bg-neutral-100 transition">
-              <span className="text-sm text-neutral-700">
+            <label className="mt-2 flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center cursor-pointer hover:border-slate-400 hover:bg-slate-100 transition">
+              <span className="text-sm text-slate-700">
                 Click to upload images
               </span>
-              <span className="text-xs text-neutral-500">
+              <span className="text-xs text-slate-500">
                 PNG, JPG up to 5MB each
               </span>
 
@@ -147,7 +147,7 @@ const CreateItemPage = () => {
             </label>
 
             {images.length > 0 && (
-              <p className="mt-2 text-sm text-neutral-600">
+              <p className="mt-2 text-sm text-slate-600">
                 {images.length} image{images.length > 1 ? "s" : ""} selected
               </p>
             )}
@@ -156,7 +156,7 @@ const CreateItemPage = () => {
           <button
             type="submit"
             disabled={loading || uploading}
-            className="w-full bg-neutral-900 text-white py-2 rounded-md hover:shadow-md transition disabled:opacity-50"
+            className="w-full bg-slate-900 text-white py-2 rounded-md hover:shadow-md transition disabled:opacity-50"
           >
             {uploading ? "Uploading images..." : "Post item"}
           </button>

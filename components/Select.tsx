@@ -17,12 +17,12 @@ export default function Select({ children, ...props }: SelectProps) {
           py-2
           pr-9
           text-sm
-          text-neutral-800
+          text-slate-800
           shadow-sm
           focus:outline-none
           focus:ring-2
-          focus:ring-neutral-900
-          hover:bg-neutral-50
+          focus:ring-slate-900
+          hover:bg-slate-50
           transition
         "
       >
@@ -37,7 +37,7 @@ export default function Select({ children, ...props }: SelectProps) {
           right-3
           top-1/2
           -translate-y-1/2
-          text-neutral-500
+          text-slate-500
         "
       />
     </div>

@@ -6,16 +6,16 @@ export default function Footer() {
     <footer className="border-t bg-white">
       <div className="max-w-6xl mx-auto px-6 py-10 grid gap-8 md:grid-cols-3">
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-neutral-900">Circulet</h3>
-          <p className="text-sm text-neutral-600 max-w-xs">
+          <h3 className="text-sm font-semibold text-slate-900">Circulet</h3>
+          <p className="text-sm text-slate-600 max-w-xs">
             A campus-first marketplace for students to buy, sell, and reuse
             items responsibly.
           </p>
         </div>
 
         <div className="space-y-2">
-          <h4 className="text-sm font-medium text-neutral-900">Explore</h4>
-          <ul className="space-y-1 text-sm text-neutral-600">
+          <h4 className="text-sm font-medium text-slate-900">Explore</h4>
+          <ul className="space-y-1 text-sm text-slate-600">
             <li>
               <Link href="/items" className="hover:underline">
                 Browse items
@@ -30,8 +30,8 @@ export default function Footer() {
         </div>
 
         <div className="space-y-2">
-          <h4 className="text-sm font-medium text-neutral-900">About</h4>
-          <p className="text-sm text-neutral-600">
+          <h4 className="text-sm font-medium text-slate-900">About</h4>
+          <p className="text-sm text-slate-600">
             Built for campus communities to promote affordability,
             sustainability, and reuse.
           </p>
@@ -39,7 +39,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-neutral-500">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
           <span className="inline-flex items-center gap-2">
             <FaCopyright size={16} /> {new Date().getFullYear()} Circulet. All
             rights reserved.

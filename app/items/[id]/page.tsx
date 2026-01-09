@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getClient } from "@/lib/apolloServerClient";
 import { useMutation } from "@apollo/client/react";
 import DeleteButton from "@/components/DeleteButton";
+import { FaWhatsapp } from "react-icons/fa6";
 
 export default async function ItemPage({
   params,
@@ -31,10 +32,10 @@ export default async function ItemPage({
   const canModify = isOwner || isAdmin;
 
   return (
-    <main className="min-h-screen bg-neutral-50">
+    <main className="min-h-screen bg-slate-50">
       <div className="max-w-5xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
         <div className="space-y-4">
-          <div className="relative aspect-square rounded-xl overflow-hidden bg-neutral-100">
+          <div className="relative aspect-square rounded-xl overflow-hidden bg-slate-100">
             {item.images?.[0] ? (
               <Image
                 src={item.images[0]}
@@ -48,7 +49,7 @@ export default async function ItemPage({
                 )}
               />
             ) : (
-              <div className="flex h-full items-center justify-center text-neutral-400">
+              <div className="flex h-full items-center justify-center text-slate-400">
                 No image
               </div>
             )}
@@ -59,7 +60,7 @@ export default async function ItemPage({
               {item.images.slice(1).map((img: string, i: number) => (
                 <div
                   key={i}
-                  className="relative aspect-square rounded-md overflow-hidden bg-neutral-100"
+                  className="relative aspect-square rounded-md overflow-hidden bg-slate-100"
                 >
                   <Image src={img} alt="" fill className="object-cover" />
                 </div>
@@ -70,24 +71,22 @@ export default async function ItemPage({
 
         <div className="space-y-6">
           <div>
-            <p className="text-sm text-neutral-500">{item.category.name}</p>
-            <h1 className="text-2xl font-semibold text-neutral-900">
+            <p className="text-sm text-slate-500">{item.category.name}</p>
+            <h1 className="text-2xl font-semibold text-slate-900">
               {item.title}
             </h1>
           </div>
 
           <div className="text-xl font-medium">
             {item.type === "FREE" ? "Free" : item.price ? `₹${item.price}` : ""}
-            <span className="ml-2 text-sm uppercase text-neutral-500">
+            <span className="ml-2 text-sm uppercase text-slate-500">
               {item.type}
             </span>
           </div>
 
           <div>
-            <h2 className="text-sm font-medium text-neutral-700">
-              Description
-            </h2>
-            <p className="mt-2 text-neutral-800 leading-relaxed">
+            <h2 className="text-sm font-medium text-slate-700">Description</h2>
+            <p className="mt-2 text-slate-800 leading-relaxed">
               {item.description}
             </p>
           </div>
@@ -102,11 +101,11 @@ export default async function ItemPage({
                 className="rounded-full"
               />
             ) : (
-              <div className="h-9 w-9 rounded-full bg-neutral-200" />
+              <div className="h-9 w-9 rounded-full bg-slate-200" />
             )}
             <div>
               <p className="text-sm font-medium">{item.owner.name ?? "User"}</p>
-              <p className="text-xs text-neutral-500">
+              <p className="text-xs text-slate-500">
                 Posted on{" "}
                 {item.createdAt
                   ? new Date(Number(item.createdAt)).toLocaleDateString(
@@ -125,10 +124,11 @@ export default async function ItemPage({
           <div className="flex gap-3 w-full">
             {!isOwner && (
               <Link
-                href="#"
-                className="w-full text-center bg-neutral-900 text-white py-2 rounded-md transition"
+                href={`https://wa.me/${item.owner.phone}`}
+                target="_blank"
+                className="w-full text-center bg-slate-900 text-white py-2 rounded-md transition items-center inline-flex justify-center gap-2"
               >
-                Contact seller
+                <FaWhatsapp size={20} /> Chat on WhatsApp
               </Link>
             )}
 
@@ -136,7 +136,7 @@ export default async function ItemPage({
               <div className="flex w-full gap-4">
                 <Link
                   href={`/items/${item.id}/edit`}
-                  className="border py-2 w-full rounded-md text-center hover:bg-neutral-100"
+                  className="border py-2 w-full rounded-md text-center hover:bg-slate-100"
                 >
                   Edit
                 </Link>

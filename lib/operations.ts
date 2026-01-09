@@ -88,6 +88,7 @@ export const GET_ITEM = gql`
         id
         name
         image
+        phone
       }
     }
   }

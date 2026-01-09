@@ -34,9 +34,9 @@ export default function UserMenu({ user }: Props) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center gap-2 rounded-full border px-2 py-1 hover:bg-neutral-100 transition cursor-pointer"
+        className="flex items-center gap-2 rounded-full border px-2 py-1 hover:bg-slate-100 transition cursor-pointer"
       >
-        <div className="w-8 h-8 rounded-full overflow-hidden bg-neutral-200 flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full overflow-hidden bg-slate-200 flex items-center justify-center">
           {user.image ? (
             <Image
               src={user.image}
@@ -46,7 +46,7 @@ export default function UserMenu({ user }: Props) {
               className="w-full h-full object-cover"
             />
           ) : (
-            <span className="text-sm font-medium text-neutral-700">
+            <span className="text-sm font-medium text-slate-700">
               {user.name?.[0]?.toUpperCase() ?? "U"}
             </span>
           )}
@@ -54,7 +54,7 @@ export default function UserMenu({ user }: Props) {
 
         <FaCaretDown
           size={16}
-          className={`text-neutral-600 transition-transform duration-300 ${
+          className={`text-slate-600 transition-transform duration-300 ${
             open ? "rotate-180" : ""
           }`}
         />
@@ -64,7 +64,7 @@ export default function UserMenu({ user }: Props) {
         <div className="absolute right-0 mt-2 w-48 rounded-md border bg-white shadow-lg overflow-hidden z-50">
           <Link
             href="/profile"
-            className="block px-4 py-2 text-sm hover:bg-neutral-100"
+            className="block px-4 py-2 text-sm hover:bg-slate-100"
             onClick={() => setOpen(false)}
           >
             Profile
@@ -72,7 +72,7 @@ export default function UserMenu({ user }: Props) {
 
           <Link
             href="/new"
-            className="block px-4 py-2 text-sm hover:bg-neutral-100"
+            className="block px-4 py-2 text-sm hover:bg-slate-100"
             onClick={() => setOpen(false)}
           >
             Post item
