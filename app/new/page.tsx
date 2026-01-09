@@ -154,7 +154,13 @@ const CreateItemPage = () => {
               Images
             </label>
 
-            <label className="mt-2 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center transition hover:border-slate-400 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:hover:border-slate-500 dark:hover:bg-slate-700">
+            <label
+              className={`mt-2 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-6 py-10 text-center transition ${
+                images.length >= 3
+                  ? "cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 dark:border-slate-700 dark:bg-slate-800"
+                  : "border-slate-300 bg-slate-50 hover:border-slate-400 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-900 dark:hover:bg-slate-800"
+              } `}
+            >
               <span className="text-sm text-slate-700 dark:text-slate-200">
                 Click to upload images
               </span>
@@ -167,7 +173,15 @@ const CreateItemPage = () => {
                 multiple
                 accept="image/*"
                 className="hidden"
-                onChange={(e) => setImages(Array.from(e.target.files ?? []))}
+                disabled={images.length >= 3}
+                onChange={(e) => {
+                  const files = Array.from(e.target.files ?? []);
+                  if (images.length + files.length > 3) {
+                    toast.error("You can upload up to 3 images only");
+                    return;
+                  }
+                  setImages((prev) => [...prev, ...files]);
+                }}
               />
             </label>
 
@@ -189,7 +203,7 @@ const CreateItemPage = () => {
                     <button
                       type="button"
                       onClick={() => removeImage(index)}
-                      className="absolute top-2 right-2 rounded-full bg-black/70 p-1 text-white opacity-0 transition group-hover:opacity-100 hover:bg-black"
+                      className="absolute top-2 right-2 rounded-full bg-black/70 p-2 text-white opacity-0 transition group-hover:opacity-100 hover:bg-black"
                     >
                       <FaTrash className="text-red-400" />
                     </button>
@@ -198,6 +212,10 @@ const CreateItemPage = () => {
               </div>
             )}
           </div>
+
+          <p className="mt-2 text-xs text-slate-500">
+            {images.length} / 3 images selected
+          </p>
 
           <button
             type="submit"
