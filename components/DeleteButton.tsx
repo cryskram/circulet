@@ -29,8 +29,6 @@ export default function DeleteButton({
     });
   }
 
-  console.log(isAdmin, isOwner);
-
   if (!isAdmin && !isOwner) return null;
 
   return (
