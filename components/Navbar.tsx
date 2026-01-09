@@ -2,6 +2,7 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import UserMenu from "./UserMenu";
 import LoginButton from "./LoginButton";
+import ThemeToggle from "./ThemeToggle";
 
 export default async function Navbar() {
   const session = await auth();
@@ -16,6 +17,8 @@ export default async function Navbar() {
         <Link href="/items" className="text-sm">
           Browse
         </Link>
+
+        <ThemeToggle />
 
         {!session?.user && <LoginButton text="Login" />}
 
