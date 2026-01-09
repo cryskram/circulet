@@ -1,9 +1,8 @@
 import { auth } from "@/auth";
-import { DELETE_ITEM, GET_ITEM } from "@/lib/operations";
+import { GET_ITEM } from "@/lib/operations";
 import Image from "next/image";
 import Link from "next/link";
 import { getClient } from "@/lib/apolloServerClient";
-import { useMutation } from "@apollo/client/react";
 import DeleteButton from "@/components/DeleteButton";
 import { FaWhatsapp } from "react-icons/fa6";
 
@@ -23,19 +22,18 @@ export default async function ItemPage({
 
   const item = data?.item;
   if (!item) {
-    window.location.replace("/");
+    return null;
   }
 
   const isOwner = session?.user?.id === item.owner.id;
   const isAdmin = session?.user.role === "ADMIN";
-
   const canModify = isOwner || isAdmin;
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-800">
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 px-6 py-10 md:grid-cols-2">
         <div className="space-y-4">
-          <div className="relative aspect-square overflow-hidden rounded-xl bg-slate-100">
+          <div className="relative aspect-square overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-700">
             {item.images?.[0] ? (
               <Image
                 src={item.images[0]}
@@ -49,7 +47,7 @@ export default async function ItemPage({
                 )}
               />
             ) : (
-              <div className="flex h-full items-center justify-center text-slate-400">
+              <div className="flex h-full items-center justify-center text-slate-400 dark:text-slate-500">
                 No image
               </div>
             )}
@@ -60,7 +58,7 @@ export default async function ItemPage({
               {item.images.slice(1).map((img: string, i: number) => (
                 <div
                   key={i}
-                  className="relative aspect-square overflow-hidden rounded-md bg-slate-100"
+                  className="relative aspect-square overflow-hidden rounded-md bg-slate-100 dark:bg-slate-700"
                 >
                   <Image src={img} alt="" fill className="object-cover" />
                 </div>
@@ -71,27 +69,31 @@ export default async function ItemPage({
 
         <div className="space-y-6">
           <div>
-            <p className="text-sm text-slate-500">{item.category.name}</p>
-            <h1 className="text-2xl font-semibold text-slate-900">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              {item.category.name}
+            </p>
+            <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
               {item.title}
             </h1>
           </div>
 
-          <div className="text-xl font-medium">
+          <div className="text-xl font-medium text-slate-900 dark:text-slate-100">
             {item.type === "FREE" ? "Free" : item.price ? `₹${item.price}` : ""}
-            <span className="ml-2 text-sm text-slate-500 uppercase">
+            <span className="ml-2 text-sm text-slate-500 uppercase dark:text-slate-400">
               {item.type}
             </span>
           </div>
 
           <div>
-            <h2 className="text-sm font-medium text-slate-700">Description</h2>
-            <p className="mt-2 leading-relaxed text-slate-800">
+            <h2 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Description
+            </h2>
+            <p className="mt-2 leading-relaxed text-slate-800 dark:text-slate-200">
               {item.description}
             </p>
           </div>
 
-          <div className="flex items-center gap-3 border-t pt-4">
+          <div className="flex items-center gap-3 border-t border-slate-200 pt-4 dark:border-slate-700">
             {item.owner.image ? (
               <Image
                 src={item.owner.image}
@@ -101,11 +103,13 @@ export default async function ItemPage({
                 className="rounded-full"
               />
             ) : (
-              <div className="h-9 w-9 rounded-full bg-slate-200" />
+              <div className="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-600" />
             )}
             <div>
-              <p className="text-sm font-medium">{item.owner.name ?? "User"}</p>
-              <p className="text-xs text-slate-500">
+              <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                {item.owner.name ?? "User"}
+              </p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Posted on{" "}
                 {item.createdAt
                   ? new Date(Number(item.createdAt)).toLocaleDateString(
@@ -122,11 +126,11 @@ export default async function ItemPage({
           </div>
 
           <div className="flex w-full gap-3">
-            {!isOwner && (
+            {!isOwner && item.owner.phone && (
               <Link
                 href={`https://wa.me/${item.owner.phone}`}
                 target="_blank"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 py-2 text-center text-white transition"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 py-2 text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
               >
                 <FaWhatsapp size={20} /> Chat on WhatsApp
               </Link>
@@ -136,10 +140,11 @@ export default async function ItemPage({
               <div className="flex w-full gap-4">
                 <Link
                   href={`/items/${item.id}/edit`}
-                  className="w-full rounded-md border py-2 text-center hover:bg-slate-100"
+                  className="w-full rounded-md border border-slate-300 py-2 text-center text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
                 >
                   Edit
                 </Link>
+
                 <DeleteButton
                   itemId={item.id}
                   isOwner={isOwner}

@@ -5,7 +5,6 @@ import { GET_ITEMS_AND_CATEGORIES } from "@/lib/operations";
 import { useState } from "react";
 import ItemCard from "@/components/ItemCard";
 import Select from "@/components/Select";
-import { Metadata } from "next";
 
 type Item = {
   id: string;
@@ -49,13 +48,13 @@ export default function BrowsePage() {
     }) ?? [];
 
   return (
-    <main className="min-h-screen bg-slate-50">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-800">
       <div className="mx-auto max-w-6xl space-y-8 px-6 py-10">
         <div className="space-y-2">
-          <h1 className="text-2xl font-semibold text-slate-900">
+          <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
             Browse items
           </h1>
-          <p className="text-sm text-slate-600">
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             Search and filter items listed by students on campus
           </p>
         </div>
@@ -66,7 +65,7 @@ export default function BrowsePage() {
             placeholder="Search items..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="col-span-3 rounded-md border bg-white px-4 py-2 text-sm focus:ring-2 focus:ring-slate-900 focus:outline-none"
+            className="col-span-3 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-slate-300"
           />
 
           <Select
@@ -94,20 +93,20 @@ export default function BrowsePage() {
             {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
-                className="h-48 animate-pulse rounded-xl bg-slate-200"
+                className="h-48 animate-pulse rounded-xl bg-slate-200 dark:bg-slate-700"
               />
             ))}
           </div>
         )}
 
         {error && (
-          <div className="rounded-md border bg-white p-6 text-sm text-red-600">
+          <div className="rounded-md border border-slate-200 bg-white p-6 text-sm text-red-600 dark:border-slate-700 dark:bg-slate-900 dark:text-red-400">
             Failed to load items. {error.message}
           </div>
         )}
 
         {!loading && items.length === 0 && (
-          <div className="rounded-md border bg-white p-10 text-center text-slate-600">
+          <div className="rounded-md border border-slate-200 bg-white p-10 text-center text-slate-600 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
             No items match your filters.
           </div>
         )}

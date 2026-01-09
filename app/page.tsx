@@ -58,7 +58,7 @@ export default async function HomePage() {
 
           <div className="relative hidden md:block">
             <Image
-              src="/images/community.svg"
+              src="/images/learning.svg"
               alt="Students exchanging items"
               width={512}
               height={512}
