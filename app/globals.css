@@ -1,3 +1,11 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+    --toploader-color: #0f172a
+}
+
+.dark {
+    --toploader-color: #e5e7eb
+}

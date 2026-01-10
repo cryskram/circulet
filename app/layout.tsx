@@ -4,12 +4,10 @@ import "./globals.css";
 import Providers from "./providers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NextTopLoader from "nextjs-toploader";
 
 const font = IBM_Plex_Sans({ subsets: ["latin"] });
-const url =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : "https://circulet.vercel.app";
+const url = process.env.BASE_URL as string;
 
 export const metadata: Metadata = {
   title: {
@@ -61,6 +59,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${font.className}`}>
+        <NextTopLoader
+          color="var(--toploader-color)"
+          height={3}
+          showSpinner={false}
+        />
         <Providers>
           <Navbar />
           <div className="mt-16">{children}</div>
