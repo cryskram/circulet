@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getClient } from "@/lib/apolloServerClient";
 import DeleteButton from "@/components/DeleteButton";
 import { FaWhatsapp } from "react-icons/fa6";
+import ShareButton from "@/components/ShareButton";
 
 export default async function ItemPage({
   params,
@@ -72,9 +73,16 @@ export default async function ItemPage({
             <p className="text-sm text-slate-500 dark:text-slate-400">
               {item.category.name}
             </p>
-            <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
-              {item.title}
-            </h1>
+            <div className="flex items-center justify-start gap-6">
+              <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                {item.title}
+              </h1>
+
+              <ShareButton
+                title={item.title}
+                text={`Check out ${item.title} on Circulet`}
+              />
+            </div>
           </div>
 
           <div className="text-xl font-medium text-slate-900 dark:text-slate-100">
