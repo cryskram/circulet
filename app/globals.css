@@ -3,25 +3,25 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-    --toploader-color: #0f172a
+  --toploader-color: #0f172a;
 }
 
 .dark {
-    --toploader-color: #e5e7eb
+  --toploader-color: #e5e7eb;
 }
 
 @keyframes fade-in {
-    from {
-        opacity: 0;
-        transform: translateY(4px);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
-    animation: fade-in 0.3s ease-out;
+  animation: fade-in 0.3s ease-out;
 }
