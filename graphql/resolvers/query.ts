@@ -33,9 +33,7 @@ export const Query = {
       },
     });
 
-    if (!mItem) {
-      throw new Error("Item not found");
-    }
+    if (!mItem) return null;
 
     return mItem;
   },
