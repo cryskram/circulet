@@ -55,6 +55,7 @@ export const CREATE_ITEM = gql`
     $type: ItemType!
     $categoryId: String!
     $images: [String!]!
+    $rentPolicy: RentPolicyInput
   ) {
     createItem(
       title: $title
@@ -63,6 +64,7 @@ export const CREATE_ITEM = gql`
       type: $type
       categoryId: $categoryId
       images: $images
+      rentPolicy: $rentPolicy
     ) {
       id
     }
@@ -77,6 +79,7 @@ export const UPDATE_ITEM = gql`
     $price: Int
     $type: ItemType!
     $categoryId: String!
+    $rentPolicy: RentPolicyInput
   ) {
     updateItem(
       id: $id
@@ -85,6 +88,7 @@ export const UPDATE_ITEM = gql`
       price: $price
       type: $type
       categoryId: $categoryId
+      rentPolicy: $rentPolicy
     ) {
       id
     }
@@ -106,6 +110,12 @@ export const GET_ITEM = gql`
         id
         name
         slug
+      }
+      rentPolicy {
+        unit
+        price
+        minDuration
+        maxDuration
       }
       owner {
         id

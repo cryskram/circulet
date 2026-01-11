@@ -36,24 +36,38 @@ model Category {
 }
 
 model Item {
-  id          String     @id @default(cuid())
+  id          String      @id @default(cuid())
   title       String
   description String
   price       Int?
   type        ItemType
-  status      ItemStatus @default(AVAILABLE)
+  status      ItemStatus  @default(AVAILABLE)
   images      String[]
   ownerId     String
   categoryId  String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  category    Category   @relation(fields: [categoryId], references: [id])
-  owner       User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  category    Category    @relation(fields: [categoryId], references: [id])
+  owner       User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   reports     Report[]
+  rentPolicy  RentPolicy?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([categoryId])
   @@index([ownerId])
   @@index([status])
+}
+
+model RentPolicy {
+  id          String   @id @default(cuid())
+  itemId      String   @unique
+  item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  unit        RentUnit
+  price       Int?
+  minDuration Int
+  maxDuration Int?
+
+  createdAt DateTime @default(now())
 }
 
 model Report {
@@ -128,4 +142,10 @@ enum ReportReason {
   INAPPROPRIATE
   MISLEADING
   OTHER
+}
+
+enum RentUnit {
+  HOUR
+  DAY
+  WEEK
 }

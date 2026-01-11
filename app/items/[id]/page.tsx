@@ -73,6 +73,7 @@ export default async function ItemPage({
             <p className="text-sm text-slate-500 dark:text-slate-400">
               {item.category.name}
             </p>
+
             <div className="flex items-center justify-start gap-6">
               <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
                 {item.title}
@@ -85,11 +86,59 @@ export default async function ItemPage({
             </div>
           </div>
 
-          <div className="text-xl font-medium text-slate-900 dark:text-slate-100">
-            {item.type === "FREE" ? "Free" : item.price ? `₹${item.price}` : ""}
-            <span className="ml-2 text-sm text-slate-500 uppercase dark:text-slate-400">
-              {item.type}
-            </span>
+          <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Pricing
+            </p>
+
+            {item.type === "RENT" && item.rentPolicy && (
+              <>
+                <div className="mt-2 flex items-baseline gap-2">
+                  <span className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                    ₹{item.rentPolicy.price ?? "—"}
+                  </span>
+                  <span className="text-sm text-slate-600 dark:text-slate-400">
+                    per {item.rentPolicy.unit.toLowerCase()}
+                  </span>
+                </div>
+
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                  Minimum {item.rentPolicy.minDuration}{" "}
+                  {item.rentPolicy.unit.toLowerCase()}
+                  {item.rentPolicy.minDuration > 1 ? "s" : ""}
+                  {item.rentPolicy.maxDuration && (
+                    <>
+                      {" "}
+                      · Maximum {item.rentPolicy.maxDuration}{" "}
+                      {item.rentPolicy.unit.toLowerCase()}
+                      {item.rentPolicy.maxDuration > 1 ? "s" : ""}
+                    </>
+                  )}
+                </p>
+              </>
+            )}
+
+            {item.type === "SELL" && (
+              <div className="mt-2 flex items-baseline gap-2">
+                <span className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                  ₹{item.price}
+                </span>
+                <span className="text-sm text-slate-600 dark:text-slate-400">
+                  one-time price
+                </span>
+              </div>
+            )}
+
+            {item.type === "FREE" && (
+              <div className="mt-2 flex items-center gap-2">
+                <span className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                  Free
+                </span>
+                <span className="text-sm text-slate-600 dark:text-slate-400">
+                  no cost
+                </span>
+              </div>
+            )}
           </div>
 
           <div>

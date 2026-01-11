@@ -7,6 +7,12 @@ export const typeDefs = gql`
     FREE
   }
 
+  enum RentUnit {
+    HOUR
+    DAY
+    WEEK
+  }
+
   type User {
     id: ID!
     name: String
@@ -24,17 +30,32 @@ export const typeDefs = gql`
     slug: String!
   }
 
+  type RentPolicy {
+    unit: RentUnit!
+    price: Int
+    minDuration: Int!
+    maxDuration: Int
+  }
+
   type Item {
     id: ID!
     title: String!
     description: String!
     price: Int
     type: ItemType!
+    rentPolicy: RentPolicy
     images: [String!]!
     status: String
     category: Category!
     owner: User!
     createdAt: String!
+  }
+
+  input RentPolicyInput {
+    unit: RentUnit!
+    price: Int
+    minDuration: Int!
+    maxDuration: Int
   }
 
   type Query {
@@ -53,6 +74,7 @@ export const typeDefs = gql`
       categoryId: String!
       type: ItemType!
       images: [String!]!
+      rentPolicy: RentPolicyInput
     ): Item!
     updateItem(
       id: ID!
@@ -61,6 +83,7 @@ export const typeDefs = gql`
       price: Int
       type: ItemType!
       categoryId: String!
+      rentPolicy: RentPolicyInput
     ): Item!
     deleteItem(id: ID!): Item!
   }

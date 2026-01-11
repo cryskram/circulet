@@ -12,9 +12,22 @@ export default function EditForm({ item }: { item: any }) {
 
   const [title, setTitle] = useState(item.title);
   const [description, setDescription] = useState(item.description);
-  const [price, setPrice] = useState(item.price ?? "");
   const [type, setType] = useState(item.type);
+  const [price, setPrice] = useState(item.price ?? "");
   const [categoryId, setCategoryId] = useState(item.category.id);
+
+  const rent = item.rentPolicy;
+
+  const [rentUnit, setRentUnit] = useState(rent?.unit ?? "DAY");
+  const [rentPrice, setRentPrice] = useState(
+    rent?.price != null ? String(rent.price) : ""
+  );
+  const [minDuration, setMinDuration] = useState(
+    rent?.minDuration != null ? String(rent.minDuration) : "1"
+  );
+  const [maxDuration, setMaxDuration] = useState(
+    rent?.maxDuration != null ? String(rent.maxDuration) : ""
+  );
 
   const [updateItem, { loading }] = useMutation(UPDATE_ITEM, {
     onCompleted: () => {
@@ -29,6 +42,11 @@ export default function EditForm({ item }: { item: any }) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    if (type === "RENT" && !rentUnit) {
+      toast.error("Rent unit required");
+      return;
+    }
+
     await updateItem({
       variables: {
         id: item.id,
@@ -36,7 +54,17 @@ export default function EditForm({ item }: { item: any }) {
         description,
         type,
         categoryId,
-        price: type === "FREE" ? null : Number(price),
+        price: type === "SELL" ? Number(price) : null,
+
+        rentPolicy:
+          type === "RENT"
+            ? {
+                unit: rentUnit,
+                price: rentPrice ? Number(rentPrice) : null,
+                minDuration: Number(minDuration),
+                maxDuration: maxDuration ? Number(maxDuration) : null,
+              }
+            : null,
       },
     });
   }
@@ -53,7 +81,7 @@ export default function EditForm({ item }: { item: any }) {
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:focus:ring-slate-300"
+          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
         />
       </div>
 
@@ -65,7 +93,7 @@ export default function EditForm({ item }: { item: any }) {
           rows={4}
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:outline-none dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:focus:ring-slate-300"
+          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
         />
       </div>
 
@@ -97,19 +125,64 @@ export default function EditForm({ item }: { item: any }) {
           </Select>
         </div>
 
-        <div>
-          <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-            Price
-          </label>
-          <input
-            type="number"
-            disabled={type === "FREE"}
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:ring-2 focus:ring-slate-900 focus:outline-none disabled:bg-slate-100 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:focus:ring-slate-300 dark:disabled:bg-slate-800"
-          />
-        </div>
+        {type !== "FREE" && (
+          <div>
+            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
+              Price
+            </label>
+            <input
+              type="number"
+              disabled={type === "RENT"}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+            />
+          </div>
+        )}
       </div>
+
+      {type === "RENT" && (
+        <div className="rounded-lg border border-slate-200 p-4 dark:border-slate-700">
+          <p className="mb-3 text-sm font-medium text-slate-700 dark:text-slate-300">
+            Rent details
+          </p>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Select
+              value={rentUnit}
+              onChange={(e) => setRentUnit(e.target.value)}
+            >
+              <option value="HOUR">Per hour</option>
+              <option value="DAY">Per day</option>
+              <option value="WEEK">Per week</option>
+            </Select>
+
+            <input
+              type="number"
+              placeholder="Price per unit"
+              value={rentPrice}
+              onChange={(e) => setRentPrice(e.target.value)}
+              className="rounded-md border px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+            />
+
+            <input
+              type="number"
+              placeholder="Min duration"
+              value={minDuration}
+              onChange={(e) => setMinDuration(e.target.value)}
+              className="rounded-md border px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+            />
+
+            <input
+              type="number"
+              placeholder="Max duration (optional)"
+              value={maxDuration}
+              onChange={(e) => setMaxDuration(e.target.value)}
+              className="rounded-md border px-3 py-2 text-sm dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+            />
+          </div>
+        </div>
+      )}
 
       {item.images?.length > 0 && (
         <div>
@@ -121,7 +194,7 @@ export default function EditForm({ item }: { item: any }) {
             {item.images.map((img: string, i: number) => (
               <div
                 key={i}
-                className="relative aspect-square overflow-hidden rounded-md border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800"
+                className="relative aspect-square overflow-hidden rounded-md border dark:border-slate-700"
               >
                 <Image src={img} alt="" fill className="object-cover" />
               </div>

@@ -29,6 +29,7 @@ export const Query = {
       include: {
         category: true,
         owner: true,
+        rentPolicy: true,
       },
     });
 

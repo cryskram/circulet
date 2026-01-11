@@ -1,3 +1,4 @@
+import { RentUnit } from "@/app/generated/prisma/enums";
 import { GraphQLContext } from "../context";
 
 export const Mutation = {
@@ -30,7 +31,6 @@ export const Mutation = {
 
     return true;
   },
-
   createItem: async (
     _: unknown,
     input: {
@@ -40,24 +40,58 @@ export const Mutation = {
       categoryId: string;
       type: "SELL" | "RENT" | "FREE";
       images: string[];
+      rentPolicy?: {
+        unit: "HOUR" | "DAY" | "WEEK";
+        price?: number;
+        minDuration: number;
+        maxDuration?: number;
+      };
     },
     ctx: GraphQLContext
   ) => {
-    if (!ctx.user?.email) {
-      throw new Error("unauthorized");
-    }
+    if (!ctx.user?.id) throw new Error("unauthorized");
 
-    if (input.title.length > 100) throw new Error("Title too long");
-    if (input.images.length > 3) throw new Error("Max 3 images allowed");
+    if (input.type === "RENT") {
+      if (!input.rentPolicy) {
+        throw new Error("Rent policy required");
+      }
+
+      const { unit, price, minDuration, maxDuration } = input.rentPolicy;
+
+      return ctx.prisma.item.create({
+        data: {
+          title: input.title,
+          description: input.description,
+          type: "RENT",
+          categoryId: input.categoryId,
+          images: input.images,
+          ownerId: ctx.user.id,
+
+          rentPolicy: {
+            create: {
+              unit: unit as RentUnit,
+              price: price ?? null,
+              minDuration,
+              maxDuration: maxDuration ?? null,
+            },
+          },
+        },
+        include: {
+          rentPolicy: true,
+          category: true,
+          owner: true,
+        },
+      });
+    }
 
     return ctx.prisma.item.create({
       data: {
-        title: input.title.trim(),
-        description: input.description.trim(),
-        price: input.type === "FREE" ? null : input.price,
+        title: input.title,
+        description: input.description,
+        price: input.type === "SELL" ? input.price : null,
         type: input.type,
         categoryId: input.categoryId,
-        images: input.images.slice(0, 3),
+        images: input.images,
         ownerId: ctx.user.id,
       },
       include: {
@@ -76,6 +110,12 @@ export const Mutation = {
       price?: number;
       categoryId: string;
       type: "SELL" | "RENT" | "FREE";
+      rentPolicy?: {
+        unit: "HOUR" | "DAY" | "WEEK";
+        price?: number;
+        minDuration: number;
+        maxDuration?: number;
+      };
     },
     ctx: GraphQLContext
   ) => {
@@ -84,23 +124,62 @@ export const Mutation = {
 
     const item = await ctx.prisma.item.findUnique({
       where: { id: input.id },
+      include: { rentPolicy: true },
     });
 
     if (!item) throw new Error("Item not found");
 
     const isOwner = item.ownerId === user.id;
-    const isAdmin = ctx.session?.user.role === "ADMIN";
+    const isAdmin = user.role === "ADMIN";
+    if (!isOwner && !isAdmin) throw new Error("forbidden");
 
-    if (!isOwner && !isAdmin) throw new Error("Forbidden");
+    if (input.type === "RENT") {
+      if (!input.rentPolicy) {
+        throw new Error("Rent policy required");
+      }
+
+      const { unit, price, minDuration, maxDuration } = input.rentPolicy;
+
+      return ctx.prisma.item.update({
+        where: { id: input.id },
+        data: {
+          title: input.title,
+          description: input.description,
+          type: "RENT",
+          categoryId: input.categoryId,
+
+          rentPolicy: {
+            upsert: {
+              create: {
+                unit: unit as RentUnit,
+                price: price ?? null,
+                minDuration,
+                maxDuration: maxDuration ?? null,
+              },
+              update: {
+                unit: unit as RentUnit,
+                price: price ?? null,
+                minDuration,
+                maxDuration: maxDuration ?? null,
+              },
+            },
+          },
+        },
+        include: {
+          rentPolicy: true,
+        },
+      });
+    }
 
     return ctx.prisma.item.update({
       where: { id: input.id },
       data: {
         title: input.title,
         description: input.description,
-        price: input.type === "FREE" ? null : input.price,
+        price: input.type === "SELL" ? input.price : null,
         type: input.type,
         categoryId: input.categoryId,
+        rentPolicy: { delete: true },
       },
     });
   },
