@@ -54,6 +54,14 @@ export const typeDefs = gql`
       type: ItemType!
       images: [String!]!
     ): Item!
+    updateItem(
+      id: ID!
+      title: String!
+      description: String!
+      price: Int
+      type: ItemType!
+      categoryId: String!
+    ): Item!
     deleteItem(id: ID!): Item!
   }
 `;

@@ -69,6 +69,28 @@ export const CREATE_ITEM = gql`
   }
 `;
 
+export const UPDATE_ITEM = gql`
+  mutation UpdateItem(
+    $id: ID!
+    $title: String!
+    $description: String!
+    $price: Int
+    $type: ItemType!
+    $categoryId: String!
+  ) {
+    updateItem(
+      id: $id
+      title: $title
+      description: $description
+      price: $price
+      type: $type
+      categoryId: $categoryId
+    ) {
+      id
+    }
+  }
+`;
+
 export const GET_ITEM = gql`
   query GetItem($id: ID!) {
     item(id: $id) {
@@ -81,6 +103,7 @@ export const GET_ITEM = gql`
       images
       createdAt
       category {
+        id
         name
         slug
       }
