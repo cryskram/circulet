@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import EditForm from "@/components/EditForm";
 import { getClient } from "@/lib/apolloServerClient";
 import { GET_ITEM } from "@/lib/operations";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export default async function EditItemPage({
   params,
@@ -21,7 +21,7 @@ export default async function EditItemPage({
   });
 
   const item = data?.item;
-  if (!item) redirect("/");
+  if (!item) notFound();
 
   const isOwner = session.user.id === item.owner.id;
   const isAdmin = session?.user.role === "ADMIN";

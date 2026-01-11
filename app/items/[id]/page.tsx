@@ -6,6 +6,7 @@ import { getClient } from "@/lib/apolloServerClient";
 import DeleteButton from "@/components/DeleteButton";
 import { FaWhatsapp } from "react-icons/fa6";
 import ShareButton from "@/components/ShareButton";
+import { notFound } from "next/navigation";
 
 export default async function ItemPage({
   params,
@@ -22,9 +23,7 @@ export default async function ItemPage({
   });
 
   const item = data?.item;
-  if (!item) {
-    return null;
-  }
+  if (!item) notFound();
 
   const isOwner = session?.user?.id === item.owner.id;
   const isAdmin = session?.user.role === "ADMIN";
