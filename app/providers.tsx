@@ -17,7 +17,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         <ApolloProvider client={apolloClient}>
           {children}{" "}
           <Toaster
-            position="top-right"
+            position="bottom-center"
             toastOptions={{
               className: "text-sm",
               success: {
