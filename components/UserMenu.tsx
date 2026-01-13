@@ -10,6 +10,7 @@ type Props = {
   user: {
     name?: string | null;
     image?: string | null;
+    id?: string | null;
   };
 };
 
@@ -61,7 +62,7 @@ export default function UserMenu({ user }: Props) {
       {open && (
         <div className="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-900">
           <Link
-            href="/profile"
+            href={`/profile/${user.id}`}
             className="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
             onClick={() => setOpen(false)}
           >
