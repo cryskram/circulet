@@ -6,6 +6,53 @@ export const ONBOARDING_UPDATE = gql`
   }
 `;
 
+export const ME_QUERY = gql`
+  query Me {
+    me {
+      id
+      name
+      username
+      image
+      gradYear
+      createdAt
+      items {
+        id
+        title
+        price
+        type
+        images
+        category {
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const USER_BY_ID_QUERY = gql`
+  query UserById($id: ID!) {
+    userById(id: $id) {
+      id
+      name
+      username
+      image
+      gradYear
+      phone
+      createdAt
+      items {
+        id
+        title
+        price
+        type
+        images
+        category {
+          name
+        }
+      }
+    }
+  }
+`;
+
 export const GET_ITEMS = gql`
   query GetItems {
     items {

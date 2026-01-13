@@ -1,8 +1,24 @@
 import { GraphQLContext } from "../context";
 
 export const Query = {
-  me: (_: unknown, __: unknown, ctx: GraphQLContext) => {
+  me: async (_: unknown, __: unknown, ctx: GraphQLContext) => {
     return ctx.user;
+  },
+
+  userById: async (_: unknown, { id }: { id: string }, ctx: GraphQLContext) => {
+    return ctx.prisma.user.findUnique({
+      where: { id },
+      include: {
+        items: {
+          where: { status: "AVAILABLE" },
+          orderBy: { createdAt: "desc" },
+          include: {
+            category: true,
+            rentPolicy: true,
+          },
+        },
+      },
+    });
   },
 
   categories: (_: unknown, __: unknown, ctx: GraphQLContext) => {

@@ -22,6 +22,8 @@ export const typeDefs = gql`
     gradYear: Int
     role: String!
     phone: String
+    items: [Item!]!
+    createdAt: String!
   }
 
   type Category {
@@ -63,6 +65,7 @@ export const typeDefs = gql`
     categories: [Category!]!
     items: [Item!]!
     item(id: ID!): Item
+    userById(id: ID!): User
   }
 
   type Mutation {
