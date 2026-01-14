@@ -13,6 +13,32 @@ export const typeDefs = gql`
     WEEK
   }
 
+  enum RequestType {
+    BUY
+    RENT
+    BORROW
+    FREE
+  }
+
+  enum RequestStatus {
+    OPEN
+    FULFILLED
+    CLOSED
+  }
+
+  type Request {
+    id: ID!
+    title: String!
+    description: String
+    type: RequestType!
+    budget: Int
+    duration: Int
+    status: RequestStatus!
+    category: Category!
+    requester: User!
+    createdAt: String!
+  }
+
   type User {
     id: ID!
     name: String
@@ -66,6 +92,8 @@ export const typeDefs = gql`
     items: [Item!]!
     item(id: ID!): Item
     userById(id: ID!): User
+    requests: [Request!]!
+    request(id: ID!): Request
   }
 
   type Mutation {
@@ -89,5 +117,14 @@ export const typeDefs = gql`
       rentPolicy: RentPolicyInput
     ): Item!
     deleteItem(id: ID!): Item!
+    createRequest(
+      title: String!
+      description: String
+      type: RequestType!
+      categoryId: String!
+      budget: Int
+      duration: Int
+    ): Request!
+    closeRequest(id: ID!): Boolean!
   }
 `;

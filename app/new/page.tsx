@@ -95,7 +95,7 @@ export default function CreateItemPage() {
     <main className="min-h-screen bg-slate-50 dark:bg-slate-800">
       <div className="mx-auto max-w-3xl px-6 py-10">
         <h1 className="mb-6 text-2xl font-semibold text-slate-900 dark:text-slate-100">
-          Post an item
+          Add an item
         </h1>
 
         <form

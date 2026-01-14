@@ -24,15 +24,17 @@ model User {
   items             Item[]
   reports           Report[]
   sessions          Session[]
+  requests          Request[]
 }
 
 model Category {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  slug      String   @unique
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
+  id        String    @id @default(cuid())
+  name      String    @unique
+  slug      String    @unique
+  isActive  Boolean   @default(true)
+  createdAt DateTime  @default(now())
   items     Item[]
+  requests  Request[]
 }
 
 model Item {
@@ -117,6 +119,40 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model Request {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  type        RequestType
+  budget      Int?
+  duration    Int?
+  status      RequestStatus @default(OPEN)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  requesterId String
+  requester   User   @relation(fields: [requesterId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@index([categoryId])
+  @@index([requesterId])
+}
+
+enum RequestType {
+  BUY
+  RENT
+  BORROW
+  FREE
+}
+
+enum RequestStatus {
+  OPEN
+  FULFILLED
+  CLOSED
 }
 
 enum ItemType {

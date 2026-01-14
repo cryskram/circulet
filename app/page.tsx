@@ -50,7 +50,7 @@ export default async function HomePage() {
                   href="/new"
                   className="rounded-md bg-slate-900 px-5 py-3 text-white shadow-sm transition hover:shadow-md dark:bg-slate-100 dark:text-slate-900"
                 >
-                  Post an item
+                  Add an item
                 </Link>
               </div>
             )}
