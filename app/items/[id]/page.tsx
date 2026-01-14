@@ -80,7 +80,7 @@ export default async function ItemPage({
 
               <ShareButton
                 title={item.title}
-                text={`Check out ${item.title} on Circulet`}
+                text={`Check out ${item.title} on Circulet\n`}
               />
             </div>
           </div>
@@ -149,7 +149,10 @@ export default async function ItemPage({
             </p>
           </div>
 
-          <div className="flex items-center gap-3 border-t border-slate-200 pt-4 dark:border-slate-700">
+          <Link
+            href={`/profile/${item.owner.id}`}
+            className="flex items-center gap-3 border-t border-slate-200 pt-4 dark:border-slate-700"
+          >
             {item.owner.image ? (
               <Image
                 src={item.owner.image}
@@ -179,7 +182,7 @@ export default async function ItemPage({
                   : "—"}
               </p>
             </div>
-          </div>
+          </Link>
 
           <div className="flex w-full gap-3">
             {!isOwner && item.owner.phone && (
