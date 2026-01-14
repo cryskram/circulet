@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
@@ -39,16 +39,40 @@ export const metadata: Metadata = {
     siteName: "Circulet",
     locale: "en_IN",
     type: "website",
+    images: [
+      {
+        url: "/images/hero.png",
+        width: 1200,
+        height: 630,
+        alt: "Circulet Preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Circulet",
+    description:
+      "A campus-first marketplace where students can buy, sell, or rent pre-owned items responsibly.",
+    images: ["/images/hero.png"],
   },
 
   robots: {
     index: true,
     follow: true,
   },
+};
 
-  icons: {
-    icon: "/favicon.ico",
-  },
+export const viewport: Viewport = {
+  themeColor: [
+    {
+      media: "(prefers-color-scheme: light)",
+      color: "#ffffff",
+    },
+    {
+      media: "(prefers-color-scheme: dark)",
+      color: "#0F172A",
+    },
+  ],
 };
 
 export default function RootLayout({
