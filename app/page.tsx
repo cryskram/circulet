@@ -56,13 +56,22 @@ export default async function HomePage() {
             )}
           </div>
 
-          <div className="relative order-last mt-10 flex justify-center md:order-0 md:mt-0">
+          <div className="relative order-first mb-10 flex justify-center md:order-last md:mb-0">
             <Image
-              src="/images/heroImg.png"
+              src="/images/heroLight.png"
               alt="Students exchanging items"
               width={512}
               height={512}
-              className="w-full max-w-xs object-contain md:max-w-md"
+              className="block w-full max-w-sm object-contain md:max-w-lg dark:hidden"
+              priority
+            />
+
+            <Image
+              src="/images/heroDark.png"
+              alt="Students exchanging items"
+              width={512}
+              height={512}
+              className="hidden w-full max-w-sm object-contain md:max-w-lg dark:block"
               priority
             />
           </div>
