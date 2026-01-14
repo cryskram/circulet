@@ -32,7 +32,7 @@ export const typeDefs = gql`
     description: String
     type: RequestType!
     budget: Int
-    duration: Int
+    requestRentPolicy: RentPolicy
     status: RequestStatus!
     category: Category!
     requester: User!
@@ -123,7 +123,7 @@ export const typeDefs = gql`
       type: RequestType!
       categoryId: String!
       budget: Int
-      duration: Int
+      requestRentPolicy: RentPolicyInput
     ): Request!
     closeRequest(id: ID!): Boolean!
   }

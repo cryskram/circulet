@@ -229,28 +229,49 @@ export const Mutation = {
     input: {
       title: string;
       description?: string;
-      type: "BUY" | "RENT" | "BORROW" | "FREE";
+      type: "BUY" | "RENT" | "BORROW";
       categoryId: string;
       budget?: number;
-      duration?: number;
+      requestRentPolicy?: {
+        unit: "HOUR" | "DAY" | "WEEK";
+        price?: number;
+        minDuration: number;
+        maxDuration?: number;
+      };
     },
     ctx: GraphQLContext
   ) => {
     if (!ctx.session?.user) throw new Error("unauthorized");
+
+    if (input.type !== "BUY" && !input.requestRentPolicy) {
+      throw new Error("Rent policy required");
+    }
 
     return ctx.prisma.request.create({
       data: {
         title: input.title,
         description: input.description,
         type: input.type,
-        budget: input.budget,
-        duration: input.duration,
+        budget: input.type === "BUY" ? input.budget : null,
         categoryId: input.categoryId,
         requesterId: ctx.session.user.id,
+
+        requestRentPolicy:
+          input.type !== "BUY"
+            ? {
+                create: {
+                  unit: input.requestRentPolicy!.unit as RentUnit,
+                  price: input.requestRentPolicy!.price ?? null,
+                  minDuration: input.requestRentPolicy!.minDuration,
+                  maxDuration: input.requestRentPolicy!.maxDuration ?? null,
+                },
+              }
+            : undefined,
       },
       include: {
         category: true,
         requester: true,
+        requestRentPolicy: true,
       },
     });
   },

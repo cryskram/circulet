@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
-const AUTH_REQUIRED_PATHS = ["/new", "/profile", "/myItems"];
+const AUTH_REQUIRED_PATHS = ["/new", "/profile", "/myItems", "/requests/new"];
 
 export async function proxy(req: Request) {
   const url = new URL(req.url);

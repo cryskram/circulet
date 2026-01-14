@@ -72,6 +72,18 @@ model RentPolicy {
   createdAt DateTime @default(now())
 }
 
+model RequestRentPolicy {
+  id          String   @id @default(cuid())
+  requestId   String   @unique
+  request     Request  @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  unit        RentUnit
+  price       Int?
+  minDuration Int
+  maxDuration Int?
+
+  createdAt DateTime @default(now())
+}
+
 model Report {
   id         String       @id @default(cuid())
   reason     ReportReason
@@ -127,7 +139,6 @@ model Request {
   description String?
   type        RequestType
   budget      Int?
-  duration    Int?
   status      RequestStatus @default(OPEN)
 
   categoryId String
@@ -136,7 +147,8 @@ model Request {
   requesterId String
   requester   User   @relation(fields: [requesterId], references: [id])
 
-  createdAt DateTime @default(now())
+  createdAt         DateTime           @default(now())
+  requestRentPolicy RequestRentPolicy?
 
   @@index([categoryId])
   @@index([requesterId])

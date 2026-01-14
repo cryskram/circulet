@@ -60,6 +60,7 @@ export const Query = {
       include: {
         category: true,
         requester: true,
+        requestRentPolicy: true,
       },
       orderBy: { createdAt: "desc" },
     });
@@ -71,6 +72,7 @@ export const Query = {
       include: {
         category: true,
         requester: true,
+        requestRentPolicy: true,
       },
     });
   },

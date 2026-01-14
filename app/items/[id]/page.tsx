@@ -31,186 +31,191 @@ export default async function ItemPage({
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-800">
-      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-10 px-6 py-10 md:grid-cols-2">
-        <div className="space-y-4">
-          <div className="relative aspect-square overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-700">
-            {item.images?.[0] ? (
-              <Image
-                src={item.images[0]}
-                alt={item.title}
-                fill
-                className="object-cover"
-                placeholder="blur"
-                blurDataURL={item.images[0].replace(
-                  "/upload/",
-                  "/upload/w_20,q_1,e_blur:200/"
-                )}
-              />
-            ) : (
-              <div className="flex h-full items-center justify-center text-slate-400 dark:text-slate-500">
-                No image
-              </div>
-            )}
-          </div>
-
-          {item.images.length > 1 && (
-            <div className="grid grid-cols-4 gap-2">
-              {item.images.slice(1).map((img: string, i: number) => (
-                <div
-                  key={i}
-                  className="relative aspect-square overflow-hidden rounded-md bg-slate-100 dark:bg-slate-700"
-                >
-                  <Image src={img} alt="" fill className="object-cover" />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-6">
-          <div>
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              {item.category.name}
-            </p>
-
-            <div className="flex items-center justify-start gap-6">
-              <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
-                {item.title}
-              </h1>
-
-              <ShareButton
-                title={item.title}
-                text={`Check out ${item.title} on Circulet: `}
-              />
-            </div>
-          </div>
-
-          <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-900">
-            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Pricing
-            </p>
-
-            {item.type === "RENT" && item.rentPolicy && (
-              <>
-                <div className="mt-2 flex items-baseline gap-2">
-                  <span className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
-                    ₹{item.rentPolicy.price ?? "—"}
-                  </span>
-                  <span className="text-sm text-slate-600 dark:text-slate-400">
-                    per {item.rentPolicy.unit.toLowerCase()}
-                  </span>
-                </div>
-
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                  Minimum {item.rentPolicy.minDuration}{" "}
-                  {item.rentPolicy.unit.toLowerCase()}
-                  {item.rentPolicy.minDuration > 1 ? "s" : ""}
-                  {item.rentPolicy.maxDuration && (
-                    <>
-                      {" "}
-                      · Maximum {item.rentPolicy.maxDuration}{" "}
-                      {item.rentPolicy.unit.toLowerCase()}
-                      {item.rentPolicy.maxDuration > 1 ? "s" : ""}
-                    </>
+      <div className="mx-auto max-w-6xl px-6 py-10">
+        <div className="grid gap-10 md:grid-cols-2">
+          <div className="space-y-4">
+            <div className="relative aspect-square overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-700">
+              {item.images?.[0] ? (
+                <Image
+                  src={item.images[0]}
+                  alt={item.title}
+                  fill
+                  className="object-cover"
+                  placeholder="blur"
+                  blurDataURL={item.images[0].replace(
+                    "/upload/",
+                    "/upload/w_20,q_1,e_blur:200/"
                   )}
-                </p>
-              </>
-            )}
-
-            {item.type === "SELL" && (
-              <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
-                  ₹{item.price}
-                </span>
-                <span className="text-sm text-slate-600 dark:text-slate-400">
-                  one-time price
-                </span>
-              </div>
-            )}
-
-            {item.type === "FREE" && (
-              <div className="mt-2 flex items-center gap-2">
-                <span className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
-                  Free
-                </span>
-                <span className="text-sm text-slate-600 dark:text-slate-400">
-                  no cost
-                </span>
-              </div>
-            )}
-          </div>
-
-          <div>
-            <h2 className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Description
-            </h2>
-            <p className="mt-2 leading-relaxed text-slate-800 dark:text-slate-200">
-              {item.description}
-            </p>
-          </div>
-
-          <Link
-            href={`/profile/${item.owner.id}`}
-            className="flex items-center gap-3 border-t border-slate-200 pt-4 dark:border-slate-700"
-          >
-            {item.owner.image ? (
-              <Image
-                src={item.owner.image}
-                alt={item.owner.name ?? "User"}
-                width={36}
-                height={36}
-                className="rounded-full"
-              />
-            ) : (
-              <div className="h-9 w-9 rounded-full bg-slate-200 dark:bg-slate-600" />
-            )}
-            <div>
-              <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
-                {item.owner.name ?? "User"}
-              </p>
-              <p className="text-xs text-slate-500 dark:text-slate-400">
-                Posted on{" "}
-                {item.createdAt
-                  ? new Date(Number(item.createdAt)).toLocaleDateString(
-                      "en-IN",
-                      {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      }
-                    )
-                  : "—"}
-              </p>
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center text-slate-400 dark:text-slate-500">
+                  No image
+                </div>
+              )}
             </div>
-          </Link>
 
-          <div className="flex w-full gap-3">
-            {!isOwner && item.owner.phone && (
-              <Link
-                href={`https://wa.me/${item.owner.phone}`}
-                target="_blank"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 py-2 text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
-              >
-                <FaWhatsapp size={20} /> Chat on WhatsApp
-              </Link>
+            {item.images.length > 1 && (
+              <div className="grid grid-cols-4 gap-2">
+                {item.images.slice(1).map((img: string, i: number) => (
+                  <div
+                    key={i}
+                    className="relative aspect-square overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-700"
+                  >
+                    <Image src={img} alt="" fill className="object-cover" />
+                  </div>
+                ))}
+              </div>
             )}
+          </div>
 
-            {canModify && (
-              <div className="flex w-full gap-4">
-                <Link
-                  href={`/items/${item.id}/edit`}
-                  className="w-full rounded-md border border-slate-300 py-2 text-center text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
-                >
-                  Edit
-                </Link>
+          <div className="space-y-8">
+            <div className="space-y-1">
+              <p className="text-xs tracking-wide text-slate-500 uppercase dark:text-slate-400">
+                {item.category.name}
+              </p>
 
-                <DeleteButton
-                  itemId={item.id}
-                  isOwner={isOwner}
-                  isAdmin={isAdmin}
+              <div className="flex items-start justify-between gap-4">
+                <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+                  {item.title}
+                </h1>
+
+                <ShareButton
+                  title={item.title}
+                  text={`Check out ${item.title} on Circulet`}
                 />
               </div>
-            )}
+            </div>
+
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-full border px-3 py-1 text-xs font-medium text-slate-600 uppercase dark:border-slate-600 dark:text-slate-300">
+                  {item.type}
+                </span>
+              </div>
+
+              {item.type === "RENT" && item.rentPolicy && (
+                <>
+                  <div className="mt-3 flex items-baseline gap-2">
+                    <span className="text-3xl font-semibold text-slate-900 dark:text-slate-100">
+                      ₹{item.rentPolicy.price ?? "—"}
+                    </span>
+                    <span className="text-sm text-slate-600 dark:text-slate-400">
+                      per {item.rentPolicy.unit.toLowerCase()}
+                    </span>
+                  </div>
+
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                    Min {item.rentPolicy.minDuration}{" "}
+                    {item.rentPolicy.unit.toLowerCase()}
+                    {item.rentPolicy.minDuration > 1 && "s"}
+                    {item.rentPolicy.maxDuration && (
+                      <>
+                        {" "}
+                        · Max {item.rentPolicy.maxDuration}{" "}
+                        {item.rentPolicy.unit.toLowerCase()}
+                        {item.rentPolicy.maxDuration > 1 && "s"}
+                      </>
+                    )}
+                  </p>
+                </>
+              )}
+
+              {item.type === "SELL" && (
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span className="text-3xl font-semibold text-slate-900 dark:text-slate-100">
+                    ₹{item.price}
+                  </span>
+                  <span className="text-sm text-slate-600 dark:text-slate-400">
+                    one-time price
+                  </span>
+                </div>
+              )}
+
+              {item.type === "FREE" && (
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span className="text-3xl font-semibold text-slate-900 dark:text-slate-100">
+                    Free
+                  </span>
+                  <span className="text-sm text-slate-600 dark:text-slate-400">
+                    no cost
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <h2 className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                Description
+              </h2>
+              <p className="mt-2 leading-relaxed text-slate-700 dark:text-slate-300">
+                {item.description}
+              </p>
+            </div>
+
+            <Link
+              href={`/profile/${item.owner.id}`}
+              className="flex items-center gap-3 rounded-lg border border-slate-200 p-4 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
+            >
+              <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+                {item.owner.image && (
+                  <Image
+                    src={item.owner.image}
+                    alt="profile"
+                    fill
+                    className="object-cover"
+                  />
+                )}
+              </div>
+
+              <div className="flex-1">
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                  {item.owner.name ?? "User"}
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Posted{" "}
+                  {new Date(Number(item.createdAt)).toLocaleDateString(
+                    "en-IN",
+                    {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    }
+                  )}
+                </p>
+              </div>
+            </Link>
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              {!isOwner && item.owner.phone && (
+                <Link
+                  href={`https://wa.me/${item.owner.phone}`}
+                  target="_blank"
+                  className="flex w-full justify-center rounded-md bg-slate-900 py-2 text-center text-sm font-medium text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
+                >
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <FaWhatsapp size={18} />
+                    Chat on WhatsApp
+                  </span>
+                </Link>
+              )}
+
+              {canModify && (
+                <>
+                  <Link
+                    href={`/items/${item.id}/edit`}
+                    className="mx-auto flex w-full justify-center rounded-md border border-slate-300 py-2 text-center text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-700"
+                  >
+                    Edit
+                  </Link>
+
+                  <DeleteButton
+                    itemId={item.id}
+                    isOwner={isOwner}
+                    isAdmin={isAdmin}
+                  />
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

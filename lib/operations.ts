@@ -94,6 +94,38 @@ export const GET_ITEMS_AND_CATEGORIES = gql`
   }
 `;
 
+export const GET_ITEM = gql`
+  query GetItem($id: ID!) {
+    item(id: $id) {
+      id
+      title
+      description
+      price
+      type
+      status
+      images
+      createdAt
+      category {
+        id
+        name
+        slug
+      }
+      rentPolicy {
+        unit
+        price
+        minDuration
+        maxDuration
+      }
+      owner {
+        id
+        name
+        image
+        phone
+      }
+    }
+  }
+`;
+
 export const CREATE_ITEM = gql`
   mutation CreateItem(
     $title: String!
@@ -142,38 +174,6 @@ export const UPDATE_ITEM = gql`
   }
 `;
 
-export const GET_ITEM = gql`
-  query GetItem($id: ID!) {
-    item(id: $id) {
-      id
-      title
-      description
-      price
-      type
-      status
-      images
-      createdAt
-      category {
-        id
-        name
-        slug
-      }
-      rentPolicy {
-        unit
-        price
-        minDuration
-        maxDuration
-      }
-      owner {
-        id
-        name
-        image
-        phone
-      }
-    }
-  }
-`;
-
 export const DELETE_ITEM = gql`
   mutation DeleteItem($id: ID!) {
     deleteItem(id: $id) {
@@ -191,8 +191,14 @@ export const GET_REQUESTS = gql`
       description
       type
       budget
-      duration
+      status
       createdAt
+      requestRentPolicy {
+        unit
+        price
+        minDuration
+        maxDuration
+      }
       category {
         name
       }
@@ -213,8 +219,14 @@ export const GET_REQUEST = gql`
       description
       type
       budget
-      duration
+      status
       createdAt
+      requestRentPolicy {
+        unit
+        price
+        minDuration
+        maxDuration
+      }
       category {
         name
       }
@@ -235,7 +247,7 @@ export const CREATE_REQUEST = gql`
     $type: RequestType!
     $categoryId: String!
     $budget: Int
-    $duration: Int
+    $requestRentPolicy: RentPolicyInput
   ) {
     createRequest(
       title: $title
@@ -243,9 +255,15 @@ export const CREATE_REQUEST = gql`
       type: $type
       categoryId: $categoryId
       budget: $budget
-      duration: $duration
+      requestRentPolicy: $requestRentPolicy
     ) {
       id
     }
+  }
+`;
+
+export const CLOSE_REQUEST = gql`
+  mutation CloseRequest($id: ID!) {
+    closeRequest(id: $id)
   }
 `;
