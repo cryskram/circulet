@@ -5,8 +5,7 @@ import Providers from "./providers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NextTopLoader from "nextjs-toploader";
-import GoogleAnalytics from "@/components/GoogleAnalytics";
-import AnalyticsTracker from "@/components/AnalyticsTracker";
+import Script from "next/script";
 
 const font = IBM_Plex_Sans({ subsets: ["latin"] });
 const url = process.env.BASE_URL as string;
@@ -82,9 +81,28 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${font.className}`}>
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
+          </>
+        )}
         <NextTopLoader
           color="var(--toploader-color)"
           height={3}
@@ -92,8 +110,6 @@ export default function RootLayout({
         />
         <Providers>
           <Navbar />
-          <GoogleAnalytics />
-          <AnalyticsTracker />
           <div className="mt-16">{children}</div>
           <Footer />
         </Providers>
