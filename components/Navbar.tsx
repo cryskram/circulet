@@ -14,15 +14,15 @@ export default async function Navbar() {
         <Image
           src="/images/logo-dark.svg"
           alt="Circulet logo"
-          width={36}
-          height={36}
+          width={28}
+          height={28}
           className="block dark:hidden"
         />
         <Image
           src="/images/logo-light.svg"
           alt="Circulet logo"
-          width={36}
-          height={36}
+          width={28}
+          height={28}
           className="hidden dark:block"
         />
 
