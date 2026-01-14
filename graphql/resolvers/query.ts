@@ -53,4 +53,25 @@ export const Query = {
 
     return mItem;
   },
+
+  requests: async (_: unknown, __: unknown, ctx: GraphQLContext) => {
+    return ctx.prisma.request.findMany({
+      where: { status: "OPEN" },
+      include: {
+        category: true,
+        requester: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+  },
+
+  request: async (_: unknown, { id }: { id: string }, ctx: GraphQLContext) => {
+    return ctx.prisma.request.findUnique({
+      where: { id },
+      include: {
+        category: true,
+        requester: true,
+      },
+    });
+  },
 };

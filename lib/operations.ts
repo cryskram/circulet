@@ -182,3 +182,69 @@ export const DELETE_ITEM = gql`
     }
   }
 `;
+
+export const GET_REQUESTS = gql`
+  query Requests {
+    requests {
+      id
+      title
+      description
+      type
+      budget
+      duration
+      createdAt
+      category {
+        name
+      }
+      requester {
+        id
+        name
+        image
+      }
+    }
+  }
+`;
+
+export const GET_REQUEST = gql`
+  query Request($id: ID!) {
+    request(id: $id) {
+      id
+      title
+      description
+      type
+      budget
+      duration
+      createdAt
+      category {
+        name
+      }
+      requester {
+        id
+        name
+        phone
+      }
+    }
+  }
+`;
+
+export const CREATE_REQUEST = gql`
+  mutation CreateRequest(
+    $title: String!
+    $description: String
+    $type: RequestType!
+    $categoryId: String!
+    $budget: Int
+    $duration: Int
+  ) {
+    createRequest(
+      title: $title
+      description: $description
+      type: $type
+      categoryId: $categoryId
+      budget: $budget
+      duration: $duration
+    ) {
+      id
+    }
+  }
+`;

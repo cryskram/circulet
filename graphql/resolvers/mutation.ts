@@ -189,7 +189,7 @@ export const Mutation = {
     { id }: { id: string },
     ctx: GraphQLContext
   ) => {
-    if (!ctx.user?.email) {
+    if (!ctx.session?.user) {
       throw new Error("unauthorized");
     }
     const mItem = await ctx.prisma.item.findUnique({ where: { id } });
@@ -222,5 +222,59 @@ export const Mutation = {
     }
 
     return await ctx.prisma.item.delete({ where: { id } });
+  },
+
+  createRequest: async (
+    _: unknown,
+    input: {
+      title: string;
+      description?: string;
+      type: "BUY" | "RENT" | "BORROW" | "FREE";
+      categoryId: string;
+      budget?: number;
+      duration?: number;
+    },
+    ctx: GraphQLContext
+  ) => {
+    if (!ctx.session?.user) throw new Error("unauthorized");
+
+    return ctx.prisma.request.create({
+      data: {
+        title: input.title,
+        description: input.description,
+        type: input.type,
+        budget: input.budget,
+        duration: input.duration,
+        categoryId: input.categoryId,
+        requesterId: ctx.session.user.id,
+      },
+      include: {
+        category: true,
+        requester: true,
+      },
+    });
+  },
+
+  closeRequest: async (
+    _: unknown,
+    { id }: { id: string },
+    ctx: GraphQLContext
+  ) => {
+    if (!ctx.session?.user) throw new Error("unauthorized");
+
+    const request = await ctx.prisma.request.findUnique({ where: { id } });
+    if (!request) throw new Error("Not found");
+
+    const isOwner = request.requesterId === ctx.session.user.id;
+    const isAdmin = ctx.session.user.role === "ADMIN";
+
+    if (!isOwner && !isAdmin) throw new Error("forbidden");
+
+    await ctx.prisma.request.update({
+      where: { id },
+      data: { status: "CLOSED" },
+    });
+
+    return true;
   },
 };
