@@ -80,7 +80,7 @@ export default async function ItemPage({
 
               <ShareButton
                 title={item.title}
-                text={`Check out ${item.title} on Circulet\n`}
+                text={`Check out ${item.title} on Circulet: `}
               />
             </div>
           </div>
