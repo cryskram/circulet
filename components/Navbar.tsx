@@ -26,7 +26,7 @@ export default async function Navbar() {
           className="hidden dark:block"
         />
 
-        <span className="text-lg font-semibold">Circulet</span>
+        <span className="hidden text-lg font-semibold md:block">Circulet</span>
       </Link>
 
       <div className="flex items-center gap-4">
