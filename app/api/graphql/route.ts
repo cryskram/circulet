@@ -2,6 +2,7 @@ import { createContext } from "@/graphql/context";
 import { resolvers } from "@/graphql/resolvers";
 import { typeDefs } from "@/graphql/schema";
 import { createSchema, createYoga } from "graphql-yoga";
+import { useDisableIntrospection } from "@graphql-yoga/plugin-disable-introspection";
 
 const checkDev = process.env.NODE_ENV === "development";
 
@@ -18,6 +19,7 @@ const yoga = createYoga({
     credentials: true,
   },
   logging: checkDev ? "debug" : "error",
+  plugins: [!checkDev && useDisableIntrospection()],
 });
 
 export const GET = yoga;
