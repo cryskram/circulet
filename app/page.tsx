@@ -23,7 +23,7 @@ export default async function HomePage() {
   return (
     <div className="min-h-screen bg-slate-100 dark:bg-slate-900">
       <section className="border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
-        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl items-center gap-6 px-6 py-20 md:grid-cols-2">
           <div className="space-y-6 text-center md:text-left">
             <h1 className="text-4xl leading-tight font-semibold text-slate-900 dark:text-slate-100">
               A campus marketplace <br />
@@ -56,13 +56,13 @@ export default async function HomePage() {
             )}
           </div>
 
-          <div className="relative hidden md:block">
+          <div className="relative order-last mt-10 flex justify-center md:order-0 md:mt-0">
             <Image
-              src="/images/learning.svg"
+              src="/images/heroImg.png"
               alt="Students exchanging items"
               width={512}
               height={512}
-              className="object-contain"
+              className="w-full max-w-xs object-contain md:max-w-md"
               priority
             />
           </div>
