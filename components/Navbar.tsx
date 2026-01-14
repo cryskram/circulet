@@ -12,12 +12,20 @@ export default async function Navbar() {
     <nav className="fixed top-0 left-0 z-50 flex w-full items-center justify-between border-b border-slate-500/50 bg-white/70 px-6 py-4 backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-900/70">
       <Link href="/" className="flex items-center gap-2">
         <Image
-          src="/images/logo.svg"
+          src="/images/logo-dark.svg"
           alt="Circulet logo"
-          width={32}
-          height={32}
-          priority
+          width={36}
+          height={36}
+          className="block dark:hidden"
         />
+        <Image
+          src="/images/logo-light.svg"
+          alt="Circulet logo"
+          width={36}
+          height={36}
+          className="hidden dark:block"
+        />
+
         <span className="text-lg font-semibold">Circulet</span>
       </Link>
 
