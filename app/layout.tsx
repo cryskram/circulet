@@ -5,6 +5,8 @@ import Providers from "./providers";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NextTopLoader from "nextjs-toploader";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 const font = IBM_Plex_Sans({ subsets: ["latin"] });
 const url = process.env.BASE_URL as string;
@@ -90,6 +92,8 @@ export default function RootLayout({
         />
         <Providers>
           <Navbar />
+          <GoogleAnalytics />
+          <AnalyticsTracker />
           <div className="mt-16">{children}</div>
           <Footer />
         </Providers>
