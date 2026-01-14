@@ -222,6 +222,7 @@ export const GET_REQUEST = gql`
         id
         name
         phone
+        image
       }
     }
   }
