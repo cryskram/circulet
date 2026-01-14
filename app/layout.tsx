@@ -20,6 +20,9 @@ export const metadata: Metadata = {
 
   applicationName: "Circulet",
 
+  alternates: {
+    canonical: url,
+  },
   keywords: [
     "Circulet",
     "campus marketplace",
@@ -74,6 +77,7 @@ export const viewport: Viewport = {
       color: "#0F172A",
     },
   ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({
@@ -85,7 +89,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={`${font.className}`}>
-        {GA_ID && (
+        {process.env.NODE_ENV === "production" && GA_ID && (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
