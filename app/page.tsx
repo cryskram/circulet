@@ -24,7 +24,7 @@ export default async function HomePage() {
     <div className="min-h-screen bg-slate-100 dark:bg-slate-900">
       <section className="border-b border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
         <div className="mx-auto grid max-w-5xl items-center gap-6 px-6 py-20 md:grid-cols-2">
-          <div className="space-y-6 text-center md:text-left">
+          <div className="order-last space-y-6 text-center md:order-first md:text-left">
             <h1 className="text-4xl leading-tight font-semibold text-slate-900 dark:text-slate-100">
               A campus marketplace <br />
               built for students
@@ -56,13 +56,13 @@ export default async function HomePage() {
             )}
           </div>
 
-          <div className="relative order-first mb-10 flex justify-center md:order-last md:mb-0">
+          <div className="relative order-first flex justify-center md:order-last">
             <Image
               src="/images/heroLight.png"
               alt="Students exchanging items"
               width={512}
               height={512}
-              className="block w-full max-w-sm object-contain md:max-w-lg dark:hidden"
+              className="block w-full max-w-sm object-contain transition-opacity duration-300 md:max-w-lg dark:hidden"
               priority
             />
 
@@ -71,7 +71,7 @@ export default async function HomePage() {
               alt="Students exchanging items"
               width={512}
               height={512}
-              className="hidden w-full max-w-sm object-contain md:max-w-lg dark:block"
+              className="hidden w-full max-w-sm object-contain transition-opacity duration-300 md:max-w-lg dark:block"
               priority
             />
           </div>
