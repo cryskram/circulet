@@ -1,4 +1,4 @@
-import { auth, signIn } from "@/auth";
+import { auth } from "@/auth";
 import { GET_ITEM } from "@/lib/operations";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +8,9 @@ import { FaWhatsapp } from "react-icons/fa6";
 import ShareButton from "@/components/ShareButton";
 import { notFound } from "next/navigation";
 import LoginButton from "@/components/LoginButton";
+import MarkItemStatusButton from "@/components/MarkStatusButton";
+
+type ItemStatus = "AVAILABLE" | "RESERVED" | "SOLD" | "REMOVED";
 
 export default async function ItemPage({
   params,
@@ -29,6 +32,15 @@ export default async function ItemPage({
   const isOwner = session?.user?.id === item.owner.id;
   const isAdmin = session?.user.role === "ADMIN";
   const canModify = isOwner || isAdmin;
+
+  const isAvailable = item.status === "AVAILABLE";
+
+  const statusLabel = {
+    AVAILABLE: "Available",
+    RESERVED: "Reserved",
+    SOLD: "Sold / Given Away",
+    REMOVED: "Removed",
+  };
 
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-800">
@@ -85,6 +97,16 @@ export default async function ItemPage({
                   text={`Check out ${item.title} on Circulet`}
                 />
               </div>
+
+              <span
+                className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium ${
+                  isAvailable
+                    ? "border-slate-300 text-slate-700 dark:border-slate-600 dark:text-slate-300"
+                    : "border-slate-400 bg-slate-100 text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+                }`}
+              >
+                {statusLabel[item.status as keyof typeof statusLabel]}
+              </span>
             </div>
 
             <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-900">
@@ -186,21 +208,34 @@ export default async function ItemPage({
               </div>
             </Link>
 
+            {item.status !== "AVAILABLE" && (
+              <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-center text-sm leading-relaxed text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400">
+                {item.status === "RESERVED" &&
+                  "This item is currently reserved. The seller may re-open it if the deal falls through."}
+
+                {item.status === "SOLD" &&
+                  "This item has been sold or given away and is no longer available."}
+
+                {item.status === "REMOVED" &&
+                  "This listing has been removed by the owner."}
+              </div>
+            )}
+
             <div className="flex flex-col gap-3 sm:flex-row">
-              {session?.user && !isOwner && item.owner.phone && (
+              {isAvailable && session?.user && !isOwner && item.owner.phone && (
                 <Link
                   href={`https://wa.me/${item.owner.phone}`}
                   target="_blank"
-                  className="flex w-full justify-center rounded-md bg-slate-900 py-2 text-center text-sm font-medium text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
+                  className="flex w-full justify-center rounded-md bg-slate-900 py-2 text-sm font-medium text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
                 >
-                  <span className="inline-flex items-center justify-center gap-2">
+                  <span className="inline-flex items-center gap-2">
                     <FaWhatsapp size={18} />
                     Chat on WhatsApp
                   </span>
                 </Link>
               )}
 
-              {!session?.user && (
+              {isAvailable && !session?.user && (
                 <div className="w-full">
                   <LoginButton text="Sign in to contact" width={"full"} />
                 </div>
@@ -223,6 +258,46 @@ export default async function ItemPage({
                 </>
               )}
             </div>
+
+            {canModify && (
+              <div className="flex flex-col gap-2 sm:flex-row">
+                {isAvailable && (
+                  <>
+                    <MarkItemStatusButton
+                      itemId={item.id}
+                      status="RESERVED"
+                      label="Mark as Reserved"
+                    />
+
+                    <MarkItemStatusButton
+                      itemId={item.id}
+                      status="SOLD"
+                      label="Mark as Sold / Given Away"
+                    />
+                  </>
+                )}
+
+                {item.status === "RESERVED" && (
+                  <>
+                    <MarkItemStatusButton
+                      itemId={item.id}
+                      status="AVAILABLE"
+                      label="Re-open Listing"
+                    />
+
+                    <MarkItemStatusButton
+                      itemId={item.id}
+                      status="SOLD"
+                      label="Mark as Sold"
+                    />
+                  </>
+                )}
+              </div>
+            )}
+
+            <p className="mt-3 text-center text-xs text-slate-500 dark:text-slate-400">
+              Circulet does not handle payments. Please transact responsibly.
+            </p>
           </div>
         </div>
       </div>

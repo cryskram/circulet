@@ -1,4 +1,4 @@
-import { RentUnit } from "@/app/generated/prisma/enums";
+import { ItemStatus, RentUnit } from "@/app/generated/prisma/enums";
 import { GraphQLContext } from "../context";
 
 export const Mutation = {
@@ -222,6 +222,27 @@ export const Mutation = {
     }
 
     return await ctx.prisma.item.delete({ where: { id } });
+  },
+
+  markItemStatus: async (
+    _: unknown,
+    { id, status }: { id: string; status: ItemStatus },
+    ctx: GraphQLContext
+  ) => {
+    if (!ctx.session?.user) throw new Error("unauthorized");
+
+    const item = await ctx.prisma.item.findUnique({ where: { id } });
+    if (!item) throw new Error("not found");
+
+    const isOwner = item.ownerId === ctx.session.user.id;
+    const isAdmin = ctx.session.user.role === "ADMIN";
+
+    if (!isOwner && !isAdmin) throw new Error("forbidden");
+
+    return ctx.prisma.item.update({
+      where: { id },
+      data: { status },
+    });
   },
 
   createRequest: async (

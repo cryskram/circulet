@@ -48,6 +48,12 @@ export const USER_BY_ID_QUERY = gql`
         category {
           name
         }
+        rentPolicy {
+          unit
+          price
+          minDuration
+          maxDuration
+        }
       }
     }
   }
@@ -81,9 +87,16 @@ export const GET_ITEMS_AND_CATEGORIES = gql`
       price
       type
       images
+      status
       category {
         name
         slug
+      }
+      rentPolicy {
+        unit
+        price
+        minDuration
+        maxDuration
       }
     }
     categories {
@@ -265,5 +278,14 @@ export const CREATE_REQUEST = gql`
 export const CLOSE_REQUEST = gql`
   mutation CloseRequest($id: ID!) {
     closeRequest(id: $id)
+  }
+`;
+
+export const MARK_ITEM_STATUS = gql`
+  mutation MarkItemStatus($id: ID!, $status: ItemStatus!) {
+    markItemStatus(id: $id, status: $status) {
+      id
+      status
+    }
   }
 `;

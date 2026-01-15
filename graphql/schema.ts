@@ -7,6 +7,13 @@ export const typeDefs = gql`
     FREE
   }
 
+  enum ItemStatus {
+    AVAILABLE
+    RESERVED
+    SOLD
+    REMOVED
+  }
+
   enum RentUnit {
     HOUR
     DAY
@@ -117,6 +124,7 @@ export const typeDefs = gql`
       rentPolicy: RentPolicyInput
     ): Item!
     deleteItem(id: ID!): Item!
+    markItemStatus(id: ID!, status: ItemStatus!): Item!
     createRequest(
       title: String!
       description: String

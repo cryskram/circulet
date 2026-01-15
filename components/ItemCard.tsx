@@ -7,6 +7,7 @@ type ItemCardProps = {
     title: string;
     price: number | null;
     type: "SELL" | "RENT" | "FREE";
+    status: "AVAILABLE" | "RESERVED" | "SOLD" | "REMOVED";
     images?: string[];
     category: {
       name: string;
@@ -39,10 +40,14 @@ export default function ItemCard({ item }: ItemCardProps) {
   const image = item.images?.[0];
   const rent = item.rentPolicy;
 
+  const isInactive = item.status === "SOLD" || item.status === "REMOVED";
+
   return (
     <Link
-      href={`/items/${item.id}`}
-      className="group flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition hover:shadow-md dark:border-slate-700 dark:bg-slate-900"
+      href={isInactive ? "#" : `/items/${item.id}`}
+      className={`group flex flex-col gap-3 rounded-xl border p-4 shadow-sm transition ${
+        isInactive ? "cursor-not-allowed opacity-70" : "hover:shadow-md"
+      } border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900`}
     >
       <div className="relative aspect-square w-full overflow-hidden rounded-md bg-slate-100 dark:bg-slate-800">
         {image ? (
@@ -53,7 +58,7 @@ export default function ItemCard({ item }: ItemCardProps) {
             sizes="(max-width: 768px) 100vw, 33vw"
             placeholder="blur"
             blurDataURL={getBlurUrl(image)}
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className={`object-cover transition-all duration-300 group-hover:scale-105 ${item.status !== "AVAILABLE" ? "opacity-80" : ""} `}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-sm text-slate-400 dark:text-slate-500">
@@ -64,6 +69,14 @@ export default function ItemCard({ item }: ItemCardProps) {
         {item.type === "RENT" && (
           <span className="absolute top-2 left-2 rounded-md bg-black/70 px-2 py-1 text-xs font-medium text-white dark:bg-white/90 dark:text-slate-900">
             Rent
+          </span>
+        )}
+
+        {item.status !== "AVAILABLE" && (
+          <span className="absolute top-2 right-2 rounded-md border border-slate-300 bg-white/90 px-2 py-0.5 text-xs font-medium text-slate-600 uppercase backdrop-blur dark:border-slate-600 dark:bg-slate-900/80 dark:text-slate-300">
+            {item.status === "RESERVED" && "Reserved"}
+            {item.status === "SOLD" && "Sold"}
+            {item.status === "REMOVED" && "Unavailable"}
           </span>
         )}
       </div>

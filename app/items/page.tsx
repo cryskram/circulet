@@ -12,6 +12,7 @@ type Item = {
   title: string;
   price: number | null;
   type: "SELL" | "RENT" | "FREE";
+  status: "AVAILABLE" | "RESERVED" | "SOLD" | "REMOVED";
   category: {
     name: string;
     slug: string;

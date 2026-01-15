@@ -10,7 +10,6 @@ export const Query = {
       where: { id },
       include: {
         items: {
-          where: { status: "AVAILABLE" },
           orderBy: { createdAt: "desc" },
           include: {
             category: true,
@@ -28,12 +27,17 @@ export const Query = {
     });
   },
 
-  items: (_: unknown, __: unknown, ctx: GraphQLContext) => {
+  items: async (_: unknown, __: unknown, ctx: GraphQLContext) => {
     return ctx.prisma.item.findMany({
-      where: { status: "AVAILABLE" },
+      where: {
+        status: {
+          in: ["AVAILABLE", "RESERVED"],
+        },
+      },
       include: {
         category: true,
         owner: true,
+        rentPolicy: true,
       },
       orderBy: { createdAt: "desc" },
     });

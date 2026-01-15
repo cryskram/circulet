@@ -85,6 +85,14 @@ export default function UserMenu({ user }: { user: any }) {
             View requests
           </Link>
 
+          <Link href="/about" className="menu-item" onClick={closeMenu}>
+            About Circulet
+          </Link>
+
+          <Link href="/guidelines" className="menu-item" onClick={closeMenu}>
+            Community Guidelines
+          </Link>
+
           <div className="border-t dark:border-slate-700" />
 
           <button
