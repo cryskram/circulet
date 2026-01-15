@@ -5,6 +5,7 @@ import { GET_ITEMS_AND_CATEGORIES } from "@/lib/operations";
 import { useState } from "react";
 import ItemCard from "@/components/ItemCard";
 import Select from "@/components/Select";
+import { useRouter, useSearchParams } from "next/navigation";
 
 type Item = {
   id: string;
@@ -29,9 +30,40 @@ export default function BrowsePage() {
     categories: Category[];
   }>(GET_ITEMS_AND_CATEGORIES);
 
-  const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("all");
-  const [type, setType] = useState("all");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  function updateParams(next: {
+    q?: string;
+    category?: string;
+    type?: string;
+  }) {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (next.q !== undefined) {
+      next.q ? params.set("q", next.q) : params.delete("q");
+    }
+
+    if (next.category !== undefined) {
+      next.category === "all"
+        ? params.delete("category")
+        : params.set("category", next.category);
+    }
+
+    if (next.type !== undefined) {
+      next.type === "all"
+        ? params.delete("type")
+        : params.set("type", next.type);
+    }
+
+    router.replace(`/items?${params.toString()}`, { scroll: false });
+  }
+
+  const [search, setSearch] = useState(searchParams.get("q") ?? "");
+  const [category, setCategory] = useState(
+    searchParams.get("category") ?? "all"
+  );
+  const [type, setType] = useState(searchParams.get("type") ?? "all");
 
   const items =
     data?.items.filter((item) => {
@@ -64,13 +96,19 @@ export default function BrowsePage() {
             type="text"
             placeholder="Search items..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              updateParams({ q: e.target.value });
+            }}
             className="col-span-3 rounded-md border border-slate-200 bg-white px-4 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:ring-slate-300"
           />
 
           <Select
             value={category}
-            onChange={(e) => setCategory(e.target.value)}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              updateParams({ category: e.target.value });
+            }}
           >
             <option value="all">All categories</option>
             {data?.categories.map((cat) => (
@@ -80,13 +118,31 @@ export default function BrowsePage() {
             ))}
           </Select>
 
-          <Select value={type} onChange={(e) => setType(e.target.value)}>
+          <Select
+            value={type}
+            onChange={(e) => {
+              setType(e.target.value);
+              updateParams({ type: e.target.value });
+            }}
+          >
             <option value="all">All types</option>
             <option value="SELL">Sell</option>
             <option value="RENT">Rent</option>
             <option value="FREE">Free</option>
           </Select>
         </div>
+
+        <button
+          onClick={() => {
+            setSearch("");
+            setCategory("all");
+            setType("all");
+            router.replace("/items");
+          }}
+          className="text-sm underline"
+        >
+          Clear filters
+        </button>
 
         {loading && (
           <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">

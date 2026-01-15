@@ -98,7 +98,7 @@ export default async function ItemPage({
                 <>
                   <div className="mt-3 flex items-baseline gap-2">
                     <span className="text-3xl font-semibold text-slate-900 dark:text-slate-100">
-                      ₹{item.rentPolicy.price ?? "—"}
+                      ₹{item.rentPolicy.price ?? "-"}
                     </span>
                     <span className="text-sm text-slate-600 dark:text-slate-400">
                       per {item.rentPolicy.unit.toLowerCase()}
