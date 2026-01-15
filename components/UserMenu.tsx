@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FiChevronDown } from "react-icons/fi";
+import { signOut } from "next-auth/react";
 
 export default function UserMenu({ user }: { user: any }) {
   const [open, setOpen] = useState(false);
@@ -86,13 +87,12 @@ export default function UserMenu({ user }: { user: any }) {
 
           <div className="border-t dark:border-slate-700" />
 
-          <Link
-            href="/api/auth/signout"
-            className="menu-item text-red-500"
-            onClick={closeMenu}
+          <button
+            className="menu-item w-full text-red-500"
+            onClick={() => signOut()}
           >
             Logout
-          </Link>
+          </button>
         </div>
       )}
     </div>

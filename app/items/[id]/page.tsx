@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { GET_ITEM } from "@/lib/operations";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import DeleteButton from "@/components/DeleteButton";
 import { FaWhatsapp } from "react-icons/fa6";
 import ShareButton from "@/components/ShareButton";
 import { notFound } from "next/navigation";
+import LoginButton from "@/components/LoginButton";
 
 export default async function ItemPage({
   params,
@@ -186,7 +187,7 @@ export default async function ItemPage({
             </Link>
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              {!isOwner && item.owner.phone && (
+              {session?.user && !isOwner && item.owner.phone && (
                 <Link
                   href={`https://wa.me/${item.owner.phone}`}
                   target="_blank"
@@ -197,6 +198,12 @@ export default async function ItemPage({
                     Chat on WhatsApp
                   </span>
                 </Link>
+              )}
+
+              {!session?.user && (
+                <div className="w-full">
+                  <LoginButton text="Sign in to contact" width={"full"} />
+                </div>
               )}
 
               {canModify && (
