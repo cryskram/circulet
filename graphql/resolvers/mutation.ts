@@ -51,6 +51,14 @@ export const Mutation = {
   ) => {
     if (!ctx.user?.id) throw new Error("unauthorized");
 
+    if (!input.images || input.images.length === 0) {
+      throw new Error("At least one image is required");
+    }
+
+    if (input.images.length > 3) {
+      throw new Error("Maximum 3 images allowed");
+    }
+
     if (input.type === "RENT") {
       if (!input.rentPolicy) {
         throw new Error("Rent policy required");
@@ -133,12 +141,20 @@ export const Mutation = {
     const isAdmin = user.role === "ADMIN";
     if (!isOwner && !isAdmin) throw new Error("forbidden");
 
+    if (input.price !== undefined && input.price < 0) {
+      throw new Error("Invalid price");
+    }
+
     if (input.type === "RENT") {
       if (!input.rentPolicy) {
         throw new Error("Rent policy required");
       }
 
       const { unit, price, minDuration, maxDuration } = input.rentPolicy;
+
+      if (price !== undefined && price < 0) {
+        throw new Error("Invalid rent price");
+      }
 
       return ctx.prisma.item.update({
         where: { id: input.id },
@@ -179,7 +195,7 @@ export const Mutation = {
         price: input.type === "SELL" ? input.price : null,
         type: input.type,
         categoryId: input.categoryId,
-        rentPolicy: { delete: true },
+        rentPolicy: item.rentPolicy ? { delete: true } : undefined,
       },
     });
   },

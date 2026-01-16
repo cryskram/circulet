@@ -2,7 +2,11 @@ import { GraphQLContext } from "../context";
 
 export const Query = {
   me: async (_: unknown, __: unknown, ctx: GraphQLContext) => {
-    return ctx.user;
+    if (!ctx.session?.user) return null;
+    return ctx.prisma.user.findUnique({
+      where: { id: ctx.session.user.id },
+      include: { items: true },
+    });
   },
 
   userById: async (_: unknown, { id }: { id: string }, ctx: GraphQLContext) => {

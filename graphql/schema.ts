@@ -7,6 +7,11 @@ export const typeDefs = gql`
     FREE
   }
 
+  enum UserRole {
+    USER
+    ADMIN
+  }
+
   enum ItemStatus {
     AVAILABLE
     RESERVED
@@ -53,7 +58,7 @@ export const typeDefs = gql`
     image: String
     username: String
     gradYear: Int
-    role: String!
+    role: UserRole!
     phone: String
     items: [Item!]!
     createdAt: String!
@@ -80,7 +85,7 @@ export const typeDefs = gql`
     type: ItemType!
     rentPolicy: RentPolicy
     images: [String!]!
-    status: String
+    status: ItemStatus!
     category: Category!
     owner: User!
     createdAt: String!

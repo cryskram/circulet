@@ -50,6 +50,11 @@ export default function CreateItemPage() {
       return;
     }
 
+    if (images.length === 0) {
+      toast.error("Please upload at least one image");
+      return;
+    }
+
     try {
       setUploading(true);
 
@@ -220,20 +225,68 @@ export default function CreateItemPage() {
               Images
             </label>
 
-            <label className="mt-2 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-slate-300 bg-slate-50 px-6 py-10 text-center dark:border-slate-600 dark:bg-slate-900">
+            <label
+              className={`mt-2 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed px-6 py-10 text-center ${
+                images.length >= 3
+                  ? "cursor-not-allowed opacity-50"
+                  : "bg-slate-50 dark:bg-slate-900"
+              }`}
+            >
               <span className="text-sm">Click to upload images</span>
-              <span className="text-xs text-slate-500">Up to 3 images</span>
+              <span className="text-xs text-slate-500">
+                Max 3 images • Up to 5MB each
+              </span>
+
               <input
                 type="file"
                 multiple
                 accept="image/*"
                 className="hidden"
                 disabled={images.length >= 3}
-                onChange={(e) =>
-                  setImages((prev) => [...prev, ...(e.target.files ?? [])])
-                }
+                onChange={(e) => {
+                  const files = Array.from(e.target.files ?? []);
+                  const MAX_IMAGES = 3;
+                  const MAX_SIZE_MB = 5;
+
+                  const validFiles = files.filter(
+                    (file) => file.size <= MAX_SIZE_MB * 1024 * 1024
+                  );
+
+                  if (validFiles.length !== files.length) {
+                    toast.error("Each image must be under 5MB");
+                  }
+
+                  const remainingSlots = MAX_IMAGES - images.length;
+
+                  if (remainingSlots <= 0) {
+                    toast.error("You can upload a maximum of 3 images");
+                    e.target.value = "";
+                    return;
+                  }
+
+                  if (validFiles.length > remainingSlots) {
+                    if (images.length === 0) {
+                      toast.error("You can upload a maximum of 3 images");
+                    } else {
+                      toast.error(
+                        `You can upload only ${remainingSlots} more image(s)`
+                      );
+                    }
+                  }
+
+                  setImages((prev) => [
+                    ...prev,
+                    ...validFiles.slice(0, remainingSlots),
+                  ]);
+
+                  e.target.value = "";
+                }}
               />
             </label>
+
+            <p className="mt-2 text-xs text-slate-500">
+              {images.length} / 3 images selected
+            </p>
 
             {images.length > 0 && (
               <div className="mt-4 grid grid-cols-3 gap-3">
