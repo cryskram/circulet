@@ -64,7 +64,6 @@ export default function UserMenu({ user }: { user: any }) {
           </div>
 
           <div className="border-t dark:border-slate-700" />
-
           <Link
             href={`/profile/${user.id}`}
             className="menu-item"
@@ -79,18 +78,6 @@ export default function UserMenu({ user }: { user: any }) {
 
           <Link href="/requests/new" className="menu-item" onClick={closeMenu}>
             Add request
-          </Link>
-
-          <Link href="/requests" className="menu-item" onClick={closeMenu}>
-            View requests
-          </Link>
-
-          <Link href="/about" className="menu-item" onClick={closeMenu}>
-            About Circulet
-          </Link>
-
-          <Link href="/guidelines" className="menu-item" onClick={closeMenu}>
-            Community Guidelines
           </Link>
 
           <div className="border-t dark:border-slate-700" />

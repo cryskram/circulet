@@ -1,41 +1,89 @@
+import Image from "next/image";
 import Link from "next/link";
-import { FaAnglesRight, FaHeart, FaRegCopyright } from "react-icons/fa6";
+import { FaHeart, FaRegCopyright } from "react-icons/fa6";
 
 export default function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900">
       <div className="mx-auto max-w-6xl px-6 py-12">
-        <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-          <div className="max-w-md space-y-2">
-            <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-              Circulet
-            </h3>
+        <div className="grid gap-10 sm:grid-cols-2 md:grid-cols-3">
+          <div className="space-y-3">
+            <Link href="/" className="inline-flex items-center gap-2">
+              <Image
+                src="/images/logo-dark.svg"
+                alt="Circulet"
+                width={28}
+                height={28}
+                className="block opacity-80 dark:hidden"
+              />
+              <Image
+                src="/images/logo-light.svg"
+                alt="Circulet"
+                width={28}
+                height={28}
+                className="hidden opacity-80 dark:block"
+              />
+              <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                Circulet
+              </span>
+            </Link>
+
             <p className="text-sm text-slate-600 dark:text-slate-400">
               A campus-first marketplace built to encourage reuse,
               affordability, and trust within student communities.
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <Link
-              href="/items"
-              className="inline-flex items-center gap-2 rounded-md border border-slate-300 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
-            >
-              Browse items <FaAnglesRight />
-            </Link>
+          <div>
+            <h4 className="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">
+              Explore
+            </h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/items" className="footer-link">
+                  Browse items
+                </Link>
+              </li>
+              <li>
+                <Link href="/requests" className="footer-link">
+                  View requests
+                </Link>
+              </li>
+              <li>
+                <Link href="/new" className="footer-link">
+                  Add an item
+                </Link>
+              </li>
+              <li>
+                <Link href="/requests/new" className="footer-link">
+                  Add a request
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-            <Link
-              href="/requests"
-              className="inline-flex items-center gap-2 rounded-md border border-slate-300 px-4 py-2 text-sm text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800"
-            >
-              View requests <FaAnglesRight />
-            </Link>
+          <div>
+            <h4 className="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-100">
+              About
+            </h4>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <Link href="/about" className="footer-link">
+                  About Circulet
+                </Link>
+              </li>
+              <li>
+                <Link href="/guidelines" className="footer-link">
+                  Community Guidelines
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div className="my-8 h-px bg-slate-200 dark:bg-slate-700" />
+        <div className="my-10 h-px bg-slate-200 dark:bg-slate-700" />
 
-        <div className="flex flex-col items-center gap-2 text-xs text-slate-500 sm:flex-row sm:justify-between dark:text-slate-400">
+        <div className="flex flex-col items-center gap-3 text-xs text-slate-500 sm:flex-row sm:justify-between dark:text-slate-400">
           <span className="inline-flex items-center gap-1">
             <FaRegCopyright size={14} />
             {new Date().getFullYear()} Circulet. All rights reserved.

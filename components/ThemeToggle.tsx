@@ -17,7 +17,7 @@ export default function ThemeToggle() {
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label="Toggle theme"
-      className="relative flex h-9 w-16 items-center rounded-full border border-slate-300 bg-slate-100 transition-colors duration-300 focus:ring-1 focus:ring-slate-400/40 focus:outline-none dark:border-slate-600 dark:bg-slate-800"
+      className="relative flex h-9 w-16 items-center rounded-full border border-slate-300 bg-slate-100 transition-colors duration-300 dark:border-slate-600 dark:bg-slate-800"
     >
       <span
         className={`absolute top-1/2 left-0.5 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-slate-900 text-slate-100 shadow transition-transform duration-300 ease-out dark:bg-white dark:text-slate-700 ${isDark ? "translate-x-7" : "translate-x-0"} `}

@@ -22,7 +22,9 @@ export async function proxy(req: Request) {
   );
 
   if (isAuthRequired && !session?.user) {
-    return NextResponse.redirect(new URL("/api/auth/signin", req.url));
+    const loginUrl = new URL("/login", req.url);
+    loginUrl.searchParams.set("callbackUrl", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   if (
@@ -38,6 +40,10 @@ export async function proxy(req: Request) {
     session.user.isProfileComplete === true &&
     pathname === "/onboarding"
   ) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+
+  if (session?.user && pathname === "/login") {
     return NextResponse.redirect(new URL("/", req.url));
   }
 

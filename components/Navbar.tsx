@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { auth } from "@/auth";
 import ThemeToggle from "./ThemeToggle";
-import LoginButton from "./LoginButton";
 import UserMenu from "./UserMenu";
 import Image from "next/image";
+import HamburgerMenu from "./HamburgerMenu";
 
 export default async function Navbar() {
   const session = await auth();
@@ -31,28 +31,41 @@ export default async function Navbar() {
           </Link>
 
           <div className="hidden items-center gap-5 md:flex">
-            <Link
-              href="/items"
-              className="text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
-            >
+            <Link href="/items" className="nav-link">
               Browse
             </Link>
-
-            <Link
-              href="/requests"
-              className="text-sm font-medium text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
-            >
+            <Link href="/requests" className="nav-link">
               Requests
             </Link>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          <div className="mr-2 hidden items-center gap-4 md:flex">
+            <Link href="/about" className="nav-link">
+              About
+            </Link>
+            <Link href="/guidelines" className="nav-link">
+              Guidelines
+            </Link>
+          </div>
+
           <ThemeToggle />
 
-          {!session?.user && <LoginButton text="Login" />}
+          {!session?.user && (
+            <Link
+              href="/login"
+              className="rounded-md px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+            >
+              Sign in
+            </Link>
+          )}
 
           {session?.user && <UserMenu user={session.user} />}
+
+          <div className="md:hidden">
+            <HamburgerMenu />
+          </div>
         </div>
       </div>
     </nav>
