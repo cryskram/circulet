@@ -61,6 +61,7 @@ export const typeDefs = gql`
     role: UserRole!
     phone: String
     items: [Item!]!
+    requests: [Request!]!
     createdAt: String!
   }
 

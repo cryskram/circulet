@@ -39,16 +39,38 @@ export const USER_BY_ID_QUERY = gql`
       gradYear
       phone
       createdAt
+
       items {
         id
         title
         price
         type
         images
+        status
+        createdAt
         category {
           name
         }
         rentPolicy {
+          unit
+          price
+          minDuration
+          maxDuration
+        }
+      }
+
+      requests {
+        id
+        title
+        description
+        type
+        budget
+        status
+        createdAt
+        category {
+          name
+        }
+        requestRentPolicy {
           unit
           price
           minDuration

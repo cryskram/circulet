@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import ItemCard from "./ItemCard";
 import Link from "next/link";
+import { useState } from "react";
 
 type ProfileViewProps = {
   user: {
@@ -10,6 +13,7 @@ type ProfileViewProps = {
     image?: string;
     gradYear?: number;
     items: any[];
+    requests: any[];
   };
   isOwnProfile: boolean;
 };
@@ -18,6 +22,12 @@ export default function ProfileView({
   user,
   isOwnProfile = false,
 }: ProfileViewProps) {
+  const [activeTab, setActiveTab] = useState<"items" | "requests">("items");
+
+  const visibleRequests = isOwnProfile
+    ? user.requests
+    : user.requests.filter((r) => r.status === "OPEN");
+
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-800">
       <div className="mx-auto max-w-5xl space-y-10 px-6 py-10">
@@ -67,29 +77,82 @@ export default function ProfileView({
           </div>
         </section>
 
-        <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-lg font-medium text-slate-900 dark:text-slate-100">
-              Listings
-            </h2>
+        <div className="flex gap-2 border-b border-slate-200 dark:border-slate-700">
+          <button
+            onClick={() => setActiveTab("items")}
+            className={`px-4 py-2 text-sm font-medium transition ${
+              activeTab === "items"
+                ? "border-b-2 border-slate-900 text-slate-900 dark:border-slate-100 dark:text-slate-100"
+                : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+            }`}
+          >
+            Listings ({user.items.length})
+          </button>
 
-            <span className="text-sm text-slate-500">
-              {user.items.length} item{user.items.length !== 1 ? "s" : ""}
-            </span>
-          </div>
+          <button
+            onClick={() => setActiveTab("requests")}
+            className={`px-4 py-2 text-sm font-medium transition ${
+              activeTab === "requests"
+                ? "border-b-2 border-slate-900 text-slate-900 dark:border-slate-100 dark:text-slate-100"
+                : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+            }`}
+          >
+            Requests ({visibleRequests.length})
+          </button>
+        </div>
 
-          {user.items.length === 0 ? (
-            <div className="rounded-lg border border-dashed border-slate-300 py-10 text-center text-sm text-slate-500 dark:border-slate-600">
-              No active listings
-            </div>
-          ) : (
-            <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {user.items.map((item: any) => (
-                <ItemCard key={item.id} item={item} />
-              ))}
-            </div>
-          )}
-        </section>
+        {activeTab === "items" && (
+          <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+            {user.items.length === 0 ? (
+              <div className="rounded-lg border border-dashed border-slate-300 py-10 text-center text-sm text-slate-500 dark:border-slate-600">
+                No active listings
+              </div>
+            ) : (
+              <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {user.items.map((item: any) => (
+                  <ItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {activeTab === "requests" && (
+          <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+            {visibleRequests.length === 0 ? (
+              <div className="rounded-lg border border-dashed border-slate-300 py-10 text-center text-sm text-slate-500 dark:border-slate-600">
+                No active requests
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {visibleRequests.map((req: any) => (
+                  <Link
+                    key={req.id}
+                    href={`/requests/${req.id}`}
+                    className="block rounded-lg border border-slate-200 p-4 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                        {req.title}
+                      </h3>
+                      {isOwnProfile && (
+                        <span className="text-xs text-slate-500">
+                          {req.status}
+                        </span>
+                      )}
+                    </div>
+
+                    {req.description && (
+                      <p className="mt-1 text-sm text-slate-600 dark:text-slate-400">
+                        {req.description}
+                      </p>
+                    )}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
       </div>
     </main>
   );

@@ -20,6 +20,13 @@ export const Query = {
             rentPolicy: true,
           },
         },
+        requests: {
+          orderBy: { createdAt: "desc" },
+          include: {
+            category: true,
+            requestRentPolicy: true,
+          },
+        },
       },
     });
   },

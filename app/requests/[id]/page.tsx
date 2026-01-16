@@ -23,8 +23,6 @@ export default async function RequestPage({
   const request = data?.request;
   if (!request) notFound();
 
-  console.log(data);
-
   const isOwner = session?.user?.id === request.requester.id;
   const isAdmin = session?.user?.role === "ADMIN";
   const canClose = isOwner || isAdmin;
@@ -32,13 +30,13 @@ export default async function RequestPage({
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-800">
       <div className="mx-auto max-w-3xl px-6 py-10">
-        <div className="space-y-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+        <div className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
           <div className="space-y-1">
             <p className="text-xs tracking-wide text-slate-500 uppercase dark:text-slate-400">
               {request.category.name}
             </p>
 
-            <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">
+            <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
               {request.title}
             </h1>
           </div>
@@ -56,18 +54,18 @@ export default async function RequestPage({
           </div>
 
           {request.description && (
-            <p className="leading-relaxed text-slate-700 dark:text-slate-300">
+            <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">
               {request.description}
             </p>
           )}
 
           {request.requestRentPolicy && (
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-800">
-              <p className="mb-3 text-sm font-semibold text-slate-800 dark:text-slate-200">
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm dark:border-slate-700 dark:bg-slate-800">
+              <p className="mb-2 font-medium text-slate-800 dark:text-slate-200">
                 Rent details
               </p>
 
-              <div className="grid grid-cols-2 gap-y-2 text-sm text-slate-600 dark:text-slate-400">
+              <div className="grid grid-cols-2 gap-y-1 text-slate-600 dark:text-slate-400">
                 <span>Unit</span>
                 <span className="font-medium capitalize">
                   {request.requestRentPolicy.unit.toLowerCase()}
@@ -101,9 +99,9 @@ export default async function RequestPage({
 
           <Link
             href={`/profile/${request.requester.id}`}
-            className="flex items-center gap-3 rounded-lg border border-slate-200 p-4 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
+            className="flex items-center gap-3 rounded-lg border border-slate-200 p-3 transition hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
           >
-            <div className="relative h-10 w-10 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
+            <div className="relative h-9 w-9 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700">
               {request.requester.image && (
                 <Image
                   src={request.requester.image}
@@ -132,22 +130,18 @@ export default async function RequestPage({
             </div>
           </Link>
 
-          <div className="flex w-full flex-col gap-3 sm:flex-row">
+          <div className="flex flex-col gap-2 sm:flex-row">
             {request.requester.phone && (
               <Link
                 href={`https://wa.me/${request.requester.phone}`}
                 target="_blank"
-                className="flex-1 rounded-md bg-slate-900 py-2 text-center text-sm font-medium text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
+                className="flex w-full justify-center rounded-md bg-slate-900 py-2 text-center text-sm font-medium text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
               >
                 Contact requester
               </Link>
             )}
 
-            {canClose && (
-              <div className="flex">
-                <CloseRequestButton requestId={request.id} />
-              </div>
-            )}
+            {canClose && <CloseRequestButton requestId={request.id} />}
           </div>
         </div>
       </div>
