@@ -22,7 +22,15 @@ const yoga = createYoga({
   plugins: [!checkDev && useDisableIntrospection()],
 });
 
-export const GET = yoga;
+export const GET = checkDev
+  ? yoga
+  : async () =>
+      new Response(null, {
+        status: 307,
+        headers: {
+          Location: "/404",
+        },
+      });
 export const POST = yoga;
 
 {
