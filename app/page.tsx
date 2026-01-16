@@ -42,14 +42,14 @@ export default async function HomePage() {
                 <div className="flex justify-center gap-4 md:justify-start">
                   <Link
                     href="/items"
-                    className="rounded-md border border-slate-200 bg-white px-5 py-3 text-slate-900 shadow-sm transition hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
+                    className="rounded-full border border-slate-200 bg-white px-5 py-3 text-slate-900 shadow-sm transition hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
                   >
                     Browse items
                   </Link>
 
                   <Link
                     href="/new"
-                    className="rounded-md bg-slate-900 px-5 py-3 text-white shadow-sm transition hover:shadow-md dark:bg-slate-100 dark:text-slate-900"
+                    className="rounded-full bg-slate-900 px-5 py-3 text-white shadow-sm transition hover:shadow-md dark:bg-slate-100 dark:text-slate-900"
                   >
                     Add an item
                   </Link>

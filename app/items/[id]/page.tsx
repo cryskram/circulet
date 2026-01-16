@@ -222,18 +222,21 @@ export default async function ItemPage({
             )}
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              {isAvailable && session?.user && !isOwner && item.owner.phone && (
-                <Link
-                  href={`https://wa.me/${item.owner.phone}`}
-                  target="_blank"
-                  className="flex w-full justify-center rounded-md bg-slate-900 py-2 text-sm font-medium text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
-                >
-                  <span className="inline-flex items-center gap-2">
-                    <FaWhatsapp size={18} />
-                    Chat on WhatsApp
-                  </span>
-                </Link>
-              )}
+              {session?.user &&
+                !isOwner &&
+                item.owner.phone &&
+                (isAvailable || isAdmin) && (
+                  <Link
+                    href={`https://wa.me/${item.owner.phone}`}
+                    target="_blank"
+                    className="flex w-full justify-center rounded-md bg-slate-900 py-2 text-sm font-medium text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      <FaWhatsapp size={18} />
+                      Chat on WhatsApp
+                    </span>
+                  </Link>
+                )}
 
               {isAvailable && !session?.user && (
                 <div className="w-full">
