@@ -14,14 +14,14 @@ export default function Footer() {
                 alt="Circulet"
                 width={28}
                 height={28}
-                className="block opacity-80 dark:hidden"
+                className="block dark:hidden"
               />
               <Image
                 src="/images/logo-light.svg"
                 alt="Circulet"
                 width={28}
                 height={28}
-                className="hidden opacity-80 dark:block"
+                className="hidden dark:block"
               />
               <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
                 Circulet

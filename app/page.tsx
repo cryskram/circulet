@@ -14,7 +14,7 @@ export default async function HomePage() {
   });
 
   const items = await prisma.item.findMany({
-    where: { status: "AVAILABLE" },
+    where: { status: { in: ["AVAILABLE", "RESERVED"] } },
     include: { category: true, rentPolicy: true },
     orderBy: { createdAt: "desc" },
     take: 8,
