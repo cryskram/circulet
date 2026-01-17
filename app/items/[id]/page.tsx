@@ -29,11 +29,15 @@ export default async function ItemPage({
   const item = data?.item;
   if (!item) notFound();
 
-  const isOwner = session?.user?.id === item.owner.id;
-  const isAdmin = session?.user.role === "ADMIN";
-  const canModify = isOwner || isAdmin;
+  const user = session?.user;
 
+  const isOwner = user?.id === item.owner.id;
+  const isAdmin = user?.role === "ADMIN";
+  const canModify = isOwner || isAdmin;
   const isAvailable = item.status === "AVAILABLE";
+
+  const canContact =
+    !!user && !isOwner && !!item.owner.phone && (isAvailable || isAdmin);
 
   const statusLabel = {
     AVAILABLE: "Available",
@@ -222,26 +226,21 @@ export default async function ItemPage({
             )}
 
             <div className="flex flex-col gap-3 sm:flex-row">
-              {session?.user &&
-                !isOwner &&
-                item.owner.phone &&
-                (isAvailable || isAdmin) && (
-                  <Link
-                    href={`https://wa.me/${item.owner.phone}`}
-                    target="_blank"
-                    className="flex w-full justify-center rounded-md bg-slate-900 py-2 text-sm font-medium text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
-                  >
-                    <span className="inline-flex items-center gap-2">
-                      <FaWhatsapp size={18} />
-                      Chat on WhatsApp
-                    </span>
-                  </Link>
-                )}
+              {canContact && (
+                <Link
+                  href={`https://wa.me/${item.owner.phone}`}
+                  target="_blank"
+                  className="flex w-full justify-center rounded-md bg-slate-900 py-2 text-sm font-medium text-white transition hover:opacity-90 dark:bg-slate-100 dark:text-slate-900"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <FaWhatsapp size={18} />
+                    Chat on WhatsApp
+                  </span>
+                </Link>
+              )}
 
-              {isAvailable && !session?.user && (
-                <div className="w-full">
-                  <LoginButton text="Sign in to contact" width={"full"} />
-                </div>
+              {isAvailable && !user && (
+                <LoginButton text="Sign in to contact" width="full" />
               )}
 
               {canModify && (
