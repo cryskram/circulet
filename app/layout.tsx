@@ -60,6 +60,10 @@ export const metadata: Metadata = {
     images: ["/images/hero.png"],
   },
 
+  verification: {
+    google: "w5AEpKTK4j7WT2iTr-uW4B__Q29_Vxk27xneiA4XahY",
+  },
+
   robots: {
     index: true,
     follow: true,
