@@ -208,33 +208,43 @@ export const Mutation = {
     if (!ctx.session?.user) {
       throw new Error("unauthorized");
     }
-    const mItem = await ctx.prisma.item.findUnique({ where: { id } });
 
-    if (!mItem) {
+    const item = await ctx.prisma.item.findUnique({ where: { id } });
+
+    if (!item) {
       throw new Error("Item not found");
     }
 
-    const isOwner = mItem.ownerId === ctx.session?.user.id;
-    const isAdmin = ctx.session?.user.role === "ADMIN";
+    const isOwner = item.ownerId === ctx.session.user.id;
+    const isAdmin = ctx.session.user.role === "ADMIN";
 
     if (!isOwner && !isAdmin) {
       throw new Error("forbidden");
     }
 
     try {
-      const publicIds = mItem.images
+      const publicIds = item.images
         .map((url) => {
-          const parts = url.split("/upload/");
-          return parts[1]?.replace(/\.[^/.]+$/, "");
-        })
-        .filter(Boolean);
+          const uploadIndex = url.indexOf("/upload/");
+          if (uploadIndex === -1) return null;
 
-      if (publicIds.length) {
+          const path = url.substring(uploadIndex + 8);
+          const noVersion = path.replace(/^v\d+\//, "");
+          const noExt = noVersion.replace(/\.[^/.]+$/, "");
+
+          return noExt;
+        })
+        .filter(Boolean) as string[];
+
+      if (publicIds.length > 0) {
         const cloudinary = (await import("@/lib/cloudinary")).default;
-        await cloudinary.api.delete_resources(publicIds);
+
+        await cloudinary.api.delete_resources(publicIds, {
+          resource_type: "image",
+        });
       }
     } catch (err) {
-      console.error("Failed to delete images", err);
+      console.error("Failed to delete Cloudinary images", err);
     }
 
     return await ctx.prisma.item.delete({ where: { id } });

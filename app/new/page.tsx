@@ -1,6 +1,7 @@
 "use client";
 
 import Select from "@/components/Select";
+import { compressImage } from "@/lib/compressImage";
 import { CREATE_ITEM, GET_ITEMS_AND_CATEGORIES } from "@/lib/operations";
 import { uploadImage } from "@/lib/uploadImage";
 import { useMutation, useQuery } from "@apollo/client/react";
@@ -8,6 +9,8 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaTrash } from "react-icons/fa6";
+
+type Status = "idle" | "uploading" | "creating";
 
 export default function CreateItemPage() {
   const { data } = useQuery<any>(GET_ITEMS_AND_CATEGORIES);
@@ -26,7 +29,7 @@ export default function CreateItemPage() {
   const [price, setPrice] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [images, setImages] = useState<File[]>([]);
-  const [uploading, setUploading] = useState(false);
+  const [status, setStatus] = useState<Status>("idle");
 
   const [rentUnit, setRentUnit] = useState<"HOUR" | "DAY" | "WEEK">("DAY");
   const [rentPrice, setRentPrice] = useState("");
@@ -56,13 +59,17 @@ export default function CreateItemPage() {
     }
 
     try {
-      setUploading(true);
+      setStatus("uploading");
 
-      const uploadedImages: string[] = [];
-      for (const file of images) {
-        const { url } = await uploadImage(file);
-        uploadedImages.push(url);
-      }
+      const compressedImages = await Promise.all(
+        images.map((file) => compressImage(file))
+      );
+
+      const uploadedImages = await Promise.all(
+        compressedImages.map((file) => uploadImage(file).then((res) => res.url))
+      );
+
+      setStatus("creating");
 
       await createItem({
         variables: {
@@ -86,7 +93,7 @@ export default function CreateItemPage() {
         },
       });
     } finally {
-      setUploading(false);
+      setStatus("idle");
     }
   }
 
@@ -234,7 +241,7 @@ export default function CreateItemPage() {
             >
               <span className="text-sm">Click to upload images</span>
               <span className="text-xs text-slate-500">
-                Max 3 images • Up to 5MB each
+                Images are automatically optimized before upload
               </span>
 
               <input
@@ -316,10 +323,14 @@ export default function CreateItemPage() {
 
           <button
             type="submit"
-            disabled={loading || uploading}
+            disabled={loading || status !== "idle"}
             className="w-full rounded-md bg-slate-900 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-slate-100 dark:text-slate-900"
           >
-            {uploading ? "Uploading images..." : "Post item"}
+            {status === "uploading"
+              ? "Uploading images..."
+              : status === "creating"
+                ? "Creating item..."
+                : "Post item"}
           </button>
         </form>
       </div>
