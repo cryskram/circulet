@@ -41,7 +41,8 @@ const FeatureRequest = () => {
             Request a Feature
           </h1>
           <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-            Have an idea to improve Circulet? We'd love to hear it.
+            Have a suggestion or idea to improve Circulet? Feel free to share
+            it.
           </p>
         </div>
 

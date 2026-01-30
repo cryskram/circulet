@@ -62,7 +62,7 @@ export default function Footer() {
 
               <li>
                 <Link href="/featureRequest" className="footer-link">
-                  Feature request
+                  Improve Circulet
                 </Link>
               </li>
             </ul>
