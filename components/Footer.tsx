@@ -59,6 +59,12 @@ export default function Footer() {
                   Add a request
                 </Link>
               </li>
+
+              <li>
+                <Link href="/featureRequest" className="footer-link">
+                  Feature request
+                </Link>
+              </li>
             </ul>
           </div>
 
