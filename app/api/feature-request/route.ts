@@ -42,7 +42,7 @@ export async function POST(req: Request) {
             <strong>Email:</strong> ${email}
           </p>
           <p style="margin: 0; font-size: 14px;">
-            <strong>Submitted at:</strong> ${new Date().toLocaleString("en-IN")}
+            <strong>Submitted at:</strong> ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}
           </p>
         </div>
 
